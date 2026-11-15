@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Варіант B — кухня в плівці</title>
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Pangolin&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<style>
+.stage{height:260vh;position:relative}
+.sticky{position:sticky;top:0;height:100vh;height:100svh;display:grid;grid-template-rows:auto 1fr}
+.body{display:grid;gap:24px;padding-bottom:24px;min-height:0}
+.text{align-self:center}
+.h1{font:800 clamp(34px,4.6vw + 10px,80px)/.98 var(--font);letter-spacing:-.04em;text-wrap:balance}
+.lead{max-width:520px;margin-top:20px;font-size:clamp(17px,.4vw + 15px,20px)}
+.acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.media{position:relative;min-height:0;border-radius:var(--r);overflow:hidden;background:var(--steel)}
+.media video,.media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.after{clip-path:polygon(100% 100%,100% var(--y),var(--x) 100%)}
+.film{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(118deg,rgba(255,255,255,.42) 0%,rgba(255,255,255,.08) 14%,rgba(255,255,255,.3) 24%,rgba(255,255,255,.04) 38%,rgba(255,255,255,.22) 52%,rgba(255,255,255,.06) 66%,rgba(255,255,255,.34) 80%,rgba(255,255,255,.1) 100%),
+  repeating-linear-gradient(28deg,rgba(255,255,255,.07) 0 2px,transparent 2px 22px);
+  backdrop-filter:saturate(.75) contrast(.92) blur(.6px);-webkit-backdrop-filter:saturate(.75) contrast(.92) blur(.6px);
+  clip-path:polygon(0 0,100% 0,100% var(--y),var(--x) 100%,0 100%)}
+.edge{position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,transparent 48%,rgba(255,255,255,.85) 50%,rgba(220,220,220,.5) 53%,transparent 56%);
+  clip-path:polygon(100% calc(var(--y) - 4%),100% var(--y),var(--x) 100%,calc(var(--x) - 4%) 100%)}
+.media .tape{position:absolute;z-index:3;transition:opacity .3s}
+.lab1{top:6%;left:5%;rotate:-3deg}
+.lab2{bottom:7%;right:5%;rotate:2deg;opacity:0}
+.prog{position:absolute;z-index:3;left:5%;bottom:6%;color:#fff;font:500 13px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+@media (min-width:1024px){.body{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:56px;padding-bottom:40px}}
+@media (max-width:1023px){.body{grid-template-rows:auto minmax(0,1fr)}.text{align-self:start;padding-top:8px}.lead{display:none}.acts{margin-top:18px}.acts .btn{flex:1;padding-inline:12px;font-size:15px;min-height:48px}}
+.next{padding:120px 0;border-top:1px solid var(--line)}
+</style></head><body>
+<section class="stage" id="stage">
+  <div class="sticky container">
+    <header class="header"><a class="logo" href="#"><i>т</i><b>техкарта</b></a>
+      <nav class="nav"><a href="#">Склад</a><a href="#">Технологія</a><a href="#">Вартість</a><a href="#">Заклади</a></nav>
+      <a class="btn btn--cta btn--sm" href="#">Отримати прорахунок</a></header>
+    <div class="body">
+      <div class="text">
+        <h1 class="h1">Відкриємо ваш заклад <span style="white-space:nowrap">за&nbsp;техкартою шефа</span></h1>
+        <p class="lead">Від порожнього приміщення до першого гостя за 1,5–3 місяці. Концепція, кухня, меню, обладнання й команда розписані до дрібниць, а ціна фіксована й залежить від площі: від $2 800.</p>
+        <div class="acts"><a class="btn btn--cta" href="#">Отримати прорахунок</a><a class="btn btn--ghost" href="#">Telegram шефа</a></div>
+      </div>
+      <div class="media" id="media" style="--x:100%;--y:100%">
+        <video src="../../public/video/kitchen.mp4" autoplay muted loop playsinline poster="../../public/img/kitchen.jpg"></video>
+        <img class="after" src="../../public/img/redcat.jpg" alt="Відкриття Red Cat Pub: команда за баром">
+        <div class="film"></div><div class="edge"></div>
+        <span class="tape lab1"><small>кухня</small>ще в плівці</span>
+        <span class="tape lab2"><small>за 1,5–3 місяці</small>перший гість</span>
+        <span class="prog" id="prog">гортайте — знімаємо плівку ↓</span>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="next container"><p class="mono muted">Далі — решта сайту</p></section>
+<span class="vlabel">Варіант B · кухня в плівці</span>
+<script>
+const st=document.getElementById('stage'),m=document.getElementById('media'),l2=document.querySelector('.lab2'),l1=document.querySelector('.lab1'),pr=document.getElementById('prog');
+function f(){const r=st.getBoundingClientRect(),p=Math.min(1,Math.max(0,-r.top/(r.height-innerHeight)));
+ const d=p*200; m.style.setProperty('--x',(100-d)+'%');m.style.setProperty('--y',(100-d)+'%');
+ l2.style.opacity=p>.6?1:0; l1.style.opacity=p<.45?1:0; pr.style.opacity=p<.15?1:0;}
+addEventListener('scroll',f,{passive:true});f();
+</script>
+</body></html>

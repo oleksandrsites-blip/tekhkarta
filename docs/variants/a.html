@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Варіант A — фото в заголовку</title>
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Pangolin&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<style>
+.hero{padding:clamp(32px,5vw,72px) 0 0}
+.h1{font:800 clamp(44px,8.4vw,150px)/.95 var(--font);letter-spacing:-.045em}
+.h1 .ln{display:block;overflow:hidden;padding-bottom:.06em}
+.h1 .ln>span{display:inline-block;animation:up .9s cubic-bezier(.2,.8,.2,1) both}
+.h1 .ln:nth-child(2)>span{animation-delay:.12s}.h1 .ln:nth-child(3)>span{animation-delay:.24s}
+@keyframes up{from{transform:translateY(105%)}to{transform:none}}
+.inl{position:relative;display:inline-block;vertical-align:-.08em;width:2.3em;height:.86em;margin:0 .06em;animation:grow 1s .5s cubic-bezier(.2,.8,.2,1) both}
+.inl img{width:100%;height:100%;object-fit:cover;object-position:50% 12%;border-radius:var(--r)}
+.inl .tape{position:absolute;right:4%;bottom:8%;font-size:clamp(12px,.9vw + 6px,20px);letter-spacing:0;rotate:-5deg;white-space:nowrap;animation:fade .4s 1.3s both}
+@keyframes grow{from{width:0;opacity:0}to{opacity:1}}
+@keyframes fade{from{opacity:0;scale:1.15}}
+.hero__row{display:grid;gap:28px;margin-top:clamp(36px,4vw,56px);align-items:end}
+.hero__row p{max-width:560px;font-size:clamp(18px,.4vw + 16px,21px)}
+.acts{display:flex;flex-wrap:wrap;gap:12px}
+@media (min-width:1024px){.hero__row{grid-template-columns:1fr auto}}
+@media (max-width:767px){.acts .btn{width:100%}.h1{font-size:clamp(40px,12.4vw,64px)}.inl{width:1.6em}}
+/* скотч-рядок */
+.marq{margin:clamp(56px,7vw,96px) -2vw 0;rotate:-2deg;background:var(--tape);padding:16px 0 12px;overflow:hidden;filter:drop-shadow(0 3px 3px rgba(0,0,0,.15));
+background-image:linear-gradient(180deg,rgba(255,255,255,.4),rgba(255,255,255,0) 45%,rgba(0,0,0,.05))}
+.marq__in{display:flex;width:max-content;animation:run 40s linear infinite;font:400 clamp(24px,1.6vw + 16px,40px)/1 var(--hand);white-space:nowrap}
+.marq__in span{padding-right:.8em}.marq__in span::after{content:"•";color:var(--accent);padding-left:.8em}
+@keyframes run{to{transform:translateX(-50%)}}
+/* 20+ */
+.big{padding:clamp(88px,10vw,160px) 0}
+.num{font:800 clamp(180px,34vw,560px)/.8 var(--font);letter-spacing:-.06em;background:url(../../public/img/redcat.jpg) 50% 50%/cover,var(--steel);
+-webkit-background-clip:text;background-clip:text;color:transparent;background-size:130% auto}
+.big__cap{display:grid;gap:12px;margin-top:20px;max-width:640px}
+.big__cap b{font:700 clamp(26px,2vw + 16px,44px)/1.1 var(--font);letter-spacing:-.03em}
+</style></head><body>
+<div class="container">
+  <header class="header"><a class="logo" href="#"><i>т</i><b>техкарта</b></a>
+    <nav class="nav"><a href="#">Склад</a><a href="#">Технологія</a><a href="#">Вартість</a><a href="#">Заклади</a></nav>
+    <a class="btn btn--cta btn--sm" href="#">Отримати прорахунок</a></header>
+
+  <section class="hero">
+    <h1 class="h1">
+      <span class="ln"><span>Відкриємо ваш</span></span>
+      <span class="ln"><span>заклад <span class="inl"><img src="../../public/img/chef.jpg" alt="Дмитро, бренд-шеф"></span> за</span></span>
+      <span class="ln"><span>техкартою шефа</span></span>
+    </h1>
+    <div class="hero__row">
+      <p>Від порожнього приміщення до першого гостя за 1,5–3 місяці. Концепція, кухня, меню, обладнання й команда розписані до дрібниць, а ціна фіксована й залежить від площі: від $2 800.</p>
+      <div class="acts"><a class="btn btn--cta" href="#">Отримати прорахунок закладу</a><a class="btn btn--ghost" href="#">Написати шефу в Telegram</a></div>
+    </div>
+  </section>
+</div>
+
+<div class="marq" aria-hidden="true"><div class="marq__in">
+  <span>шаурма</span><span>кав'ярня</span><span>піцерія</span><span>суші</span><span>бургерна</span><span>dark kitchen</span><span>пекарня</span><span>стрітфуд</span><span>кафе при ЖК</span><span>пивний ресторан</span>
+  <span>шаурма</span><span>кав'ярня</span><span>піцерія</span><span>суші</span><span>бургерна</span><span>dark kitchen</span><span>пекарня</span><span>стрітфуд</span><span>кафе при ЖК</span><span>пивний ресторан</span>
+</div></div>
+
+<section class="big container">
+  <p class="num" id="num">20+</p>
+  <div class="big__cap"><b>закладів відкрито й перезапущено</b><span class="muted">Від Харкова до Кіровоградщини: від фуд-кортів до пивного ресторану. Шеф у HoReCa з 2012 року.</span></div>
+</section>
+<span class="vlabel">Варіант A · фото в заголовку</span>
+<script>
+const n=document.getElementById('num');
+addEventListener('scroll',()=>{const r=n.getBoundingClientRect(),p=(innerHeight-r.top)/(innerHeight+r.height);n.style.backgroundPosition=`${30+p*40}% ${20+p*60}%`},{passive:true});
+</script>
+</body></html>
