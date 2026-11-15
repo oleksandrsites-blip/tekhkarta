@@ -195,6 +195,93 @@
     </div>
   </section>
 
+
+  <section class="cost" id="vartist" aria-labelledby="cost-title">
+    <div class="container cost__grid">
+      <div class="cost__text">
+        <h2 class="h2" id="cost-title">Скільки коштує відкрити заклад</h2>
+        <p class="cost__lead">Оберіть площу — ваги покажуть попередні цифри.</p>
+        <div class="chips" role="radiogroup" aria-label="Площа закладу">
+          <button class="chip" role="radio" aria-checked="false" data-area="до 20 м²" data-s="2800" data-i="10000-18000">до 20 м²</button>
+          <button class="chip" role="radio" aria-checked="true" data-area="20–40 м²" data-s="3300" data-i="15000-25000">20–40 м²</button>
+          <button class="chip" role="radio" aria-checked="false" data-area="40–60 м²" data-s="3600" data-i="20000-40000">40–60 м²</button>
+          <button class="chip" role="radio" aria-checked="false" data-area="60–80 м²" data-s="4800" data-i="35000-65000">60–80 м²</button>
+        </div>
+        <p class="cost__note">Цифри попередні. Точний прорахунок робимо після консультації: він залежить від формату, міста й стану приміщення. Інвестиції — це ремонт, обладнання й запуск, без оплати послуги.</p>
+        <p class="cost__payback">Окупність: <span class="need">[ПОТРІБНО: типова окупність по форматах]</span></p>
+        <a class="btn btn--ghost cost__cta" href="#rozrakhunok" data-pick-area>Отримати точний прорахунок
+          <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="2"/></svg></a>
+      </div>
+
+      <div class="scale" aria-live="polite">
+        <div class="scale__plate" aria-hidden="true"></div>
+        <div class="scale__body">
+          <div class="scale__screen">
+            <div class="scale__line"><span class="scale__label">Послуга шефа</span><output class="scale__num" id="sv" data-ghost="$8 888">$3 300</output></div>
+            <div class="scale__line"><span class="scale__label">Інвестиції в&nbsp;запуск</span><output class="scale__num scale__num--sm" id="iv" data-ghost="$88 888–88 888">$15 000–25 000</output></div>
+            <div class="scale__line scale__line--total"><span class="scale__label">Разом орієнтовно</span><output class="scale__num scale__num--sm" id="tv" data-ghost="$88 888–88 888">$18 300–28 300</output></div>
+          </div>
+          <div class="scale__foot" aria-hidden="true"><span>техкарта · ваги закладу</span><span class="scale__keys"><i></i><i></i></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="venues" id="zaklady" aria-labelledby="venues-title">
+    <div class="container">
+      <div class="venues__top">
+        <p class="venues__num" aria-hidden="true">20+</p>
+        <div class="venues__intro">
+          <h2 class="h2" id="venues-title">Відгуки шефа — це заклади, які працюють</h2>
+          <p>Понад 20 закладів по Україні. Тут ті, які можна відвідати й перевірити самому.</p>
+        </div>
+      </div>
+
+      <ul class="vlist" role="list">
+        <li class="vlist__row" data-reveal><b>Red Cat Pub</b><span>ТРЦ «Французький бульвар», Харків</span><span class="tape vlist__tag">пивний паб</span></li>
+        <li class="vlist__row" data-reveal><b>Red Cat Pub</b><span>вул. Сумська, Харків</span><span class="tape vlist__tag">пивний паб</span></li>
+        <li class="vlist__row" data-reveal><b>Red Cat Pub</b><span>ХТЗ, Харків</span><span class="tape vlist__tag">пивний паб</span></li>
+        <li class="vlist__row" data-reveal><b>Grey Stone</b><span>Софіївська Борщагівка</span><span class="tape vlist__tag">ресторан</span></li>
+        <li class="vlist__row" data-reveal><b>Eat it</b><span>заклад при ЖК</span><span class="tape vlist__tag">молодіжний формат</span></li>
+        <li class="vlist__row" data-reveal><b>Готові страви поруч</b><span>корисні домашні страви</span><span class="tape vlist__tag">готова їжа</span></li>
+      </ul>
+
+      <div class="venues__photos">
+        <figure data-reveal><img src="img/eatit.jpg" alt="Фасад закладу Eat it з літньою терасою" width="1000" height="760" loading="lazy"><figcaption class="mono">Eat it</figcaption></figure>
+        <figure data-reveal><img src="img/gsp.jpg" alt="Вивіска «Готові страви поруч» на фасаді" width="1280" height="851" loading="lazy"><figcaption class="mono">Готові страви поруч</figcaption></figure>
+      </div>
+
+      <p class="venues__did"><b>Що робили:</b> планування, проєкт, ремонт, підбір обладнання, навчання персоналу.</p>
+      <p class="venues__need"><span class="need">[ПОТРІБНО: дозвіл показувати Red Cat і фото; цифри по 2–3 кейсах — вкладення, термін, коли вийшли в плюс]</span></p>
+    </div>
+  </section>
+
+  <section class="vs" aria-labelledby="vs-title">
+    <div class="container">
+      <h2 class="h2" id="vs-title">Франшиза чи заклад за&nbsp;власною техкартою</h2>
+      <div class="vs__table" role="table" aria-label="Порівняння франшизи і Техкарти">
+        <div class="vs__row vs__row--head" role="row"><span role="columnheader"></span><span role="columnheader">Франшиза</span><span role="columnheader">Техкарта</span></div>
+        <div class="vs__row" role="row"><span role="rowheader">Бренд</span><span role="cell">чужий, за правилами мережі</span><span role="cell">ваш: назва, концепція, меню</span></div>
+        <div class="vs__row" role="row"><span role="rowheader">Платежі</span><span role="cell">зазвичай вступний внесок і роялті щомісяця</span><span role="cell">разова оплата послуги, залежно від площі</span></div>
+        <div class="vs__row" role="row"><span role="rowheader">Меню й постачальники</span><span role="cell">затверджені мережею</span><span role="cell">під ваше місце й аудиторію; постачальники наші або ваші</span></div>
+        <div class="vs__row" role="row"><span role="rowheader">Після відкриття</span><span role="cell">живете за правилами мережі</span><span role="cell">місяць супроводу, далі заклад повністю ваш</span></div>
+      </div>
+
+      <div class="extra">
+        <div class="extra__text">
+          <h3 class="h3">Заклад уже працює, але не&nbsp;тягне?</h3>
+          <p>Шеф розбере кухню, меню й процеси і скаже, що змінити. Можна замовити окремо:</p>
+        </div>
+        <ul class="extra__list" role="list">
+          <li><span>Меню і техкарти</span><span class="need">[ПОТРІБНО: ціна]</span></li>
+          <li><span>Аудит закладу</span><span class="need">[ПОТРІБНО: ціна]</span></li>
+          <li><span>Перезапуск і ребрендинг</span><span class="need">[ПОТРІБНО: ціна]</span></li>
+          <li><span>Оновлення меню кухні</span><span class="need">[ПОТРІБНО: ціна]</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <div class="sticky-cta" aria-hidden="true">

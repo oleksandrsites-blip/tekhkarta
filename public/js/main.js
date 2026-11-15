@@ -186,3 +186,62 @@ if (sticky && heroActions && 'IntersectionObserver' in window) {
   addEventListener('load', setup);
   setup();
 })();
+
+// ===== Вартість: кухонні ваги =====
+(() => {
+  const chips = document.querySelectorAll('.cost .chip');
+  if (!chips.length) return;
+  const scale = document.querySelector('.scale');
+  const sv = document.getElementById('sv'), iv = document.getElementById('iv'), tv = document.getElementById('tv');
+  const fmt = n => n.toLocaleString('uk-UA').replace(/\s/g, ' ');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let cur = { s: 3300, a: 15000, b: 25000 };
+
+  const render = v => {
+    sv.textContent = '$' + fmt(Math.round(v.s));
+    iv.textContent = '$' + fmt(Math.round(v.a / 100) * 100) + '–' + fmt(Math.round(v.b / 100) * 100);
+    tv.textContent = '$' + fmt(Math.round((v.s + v.a) / 100) * 100) + '–' + fmt(Math.round((v.s + v.b) / 100) * 100);
+  };
+  const go = to => {
+    if (reduce) { cur = to; render(cur); return; }
+    const from = { ...cur }, t0 = performance.now(), d = 650;
+    scale.classList.add('is-weighing');
+    setTimeout(() => scale.classList.remove('is-weighing'), 260);
+    (function f(t) {
+      const k = Math.min(1, (t - t0) / d), e = 1 - Math.pow(1 - k, 3);
+      cur = { s: from.s + (to.s - from.s) * e, a: from.a + (to.a - from.a) * e, b: from.b + (to.b - from.b) * e };
+      render(cur);
+      if (k < 1) requestAnimationFrame(f);
+    })(t0);
+  };
+  const pick = btn => {
+    chips.forEach(c => { c.setAttribute('aria-checked', c === btn); c.tabIndex = c === btn ? 0 : -1; });
+    const [a, b] = btn.dataset.i.split('-').map(Number);
+    go({ s: +btn.dataset.s, a, b });
+    try { sessionStorage.setItem('area', btn.dataset.area); } catch (e) {}
+  };
+  chips.forEach((c, i) => {
+    c.tabIndex = c.getAttribute('aria-checked') === 'true' ? 0 : -1;
+    c.addEventListener('click', () => pick(c));
+    c.addEventListener('keydown', e => {
+      const d = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      const n = chips[(i + d + chips.length) % chips.length]; n.focus(); pick(n);
+    });
+  });
+  render(cur);
+})();
+
+// ===== 20+: фото повільно рухається всередині цифр =====
+(() => {
+  const n = document.querySelector('.venues__num');
+  if (!n || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const f = () => {
+    const r = n.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    const p = (innerHeight - r.top) / (innerHeight + r.height);
+    n.style.backgroundPosition = `${20 + p * 60}% ${25 + p * 40}%`;
+  };
+  addEventListener('scroll', f, { passive: true }); f();
+})();
