@@ -1,6 +1,7 @@
 {
   "version": "0.0.1",
   "configurations": [
-    { "name": "tekhkarta", "runtimeExecutable": "python3", "runtimeArgs": ["-m", "http.server", "8080", "--directory", "public"], "port": 8080 }
+    { "name": "tekhkarta", "runtimeExecutable": "python3", "runtimeArgs": ["-m", "http.server", "8080", "--directory", "public"], "port": 8080 },
+    { "name": "style-tile", "runtimeExecutable": "python3", "runtimeArgs": ["-m", "http.server", "8081", "--directory", "docs"], "port": 8081 }
   ]
 }
