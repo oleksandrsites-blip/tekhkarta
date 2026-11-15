@@ -27,3 +27,107 @@ if (sticky && heroActions && 'IntersectionObserver' in window) {
     sticky.querySelectorAll('a').forEach(a => a.tabIndex = show ? 0 : -1);
   }).observe(heroActions);
 }
+
+// ===== Hero: знімаємо плівку зі скролом =====
+(() => {
+  const stage = document.getElementById('stage');
+  const peel = document.getElementById('peel');
+  if (!stage || !peel) return;
+  const svg = peel.querySelector('.peel__svg');
+  const film = peel.querySelector('.peel__film');
+  const sheen = peel.querySelector('.peel__sheen');
+  const flap = peel.querySelector('.peel__flap');
+  const after = peel.querySelector('.peel__after');
+  const before = peel.querySelector('.peel__before');
+  const flapGrad = document.getElementById('flapGrad');
+  const crease = peel.querySelector('.peel__crease');
+  const filmGrad = document.getElementById('filmGrad');
+  const hint = document.querySelector('.hero__hint');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  let W = 0, H = 0, target = 0, cur = 0, raf = 0;
+
+  // Частина прямокутника по один бік лінії x + y = c
+  const clip = (c, keepBig) => {
+    const pts = [[0, 0], [W, 0], [W, H], [0, H]], out = [];
+    const f = p => (p[0] + p[1] - c) * (keepBig ? 1 : -1);
+    for (let i = 0; i < 4; i++) {
+      const a = pts[i], b = pts[(i + 1) % 4], fa = f(a), fb = f(b);
+      if (fa >= 0) out.push(a);
+      if ((fa >= 0) !== (fb >= 0)) {
+        const t = fa / (fa - fb);
+        out.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]);
+      }
+    }
+    return out;
+  };
+  const str = pts => pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+
+  const draw = p => {
+    // p: 0 — плівка ціла, 1 — знята повністю (+ запас, щоб клапан пішов за край)
+    const c = (W + H) * (1 - p * 1.12);
+    const open = clip(c, true);
+    const rest = clip(c, false);
+    film.setAttribute('points', str(rest));
+    sheen.setAttribute('points', str(rest));
+    after.style.clipPath = open.length ? 'polygon(' + open.map(q => q[0] + 'px ' + q[1] + 'px').join(',') + ')' : 'polygon(0 0,0 0,0 0)';
+    // клапан = відкрита частина, віддзеркалена відносно лінії згину
+    const fl = open.map(([x, y]) => [c - y, c - x]);
+    flap.setAttribute('points', str(fl));
+    const onFold = open.filter(([x, y]) => Math.abs(x + y - c) < .5);
+    if (onFold.length === 2) {
+      crease.setAttribute('x1', onFold[0][0]); crease.setAttribute('y1', onFold[0][1]);
+      crease.setAttribute('x2', onFold[1][0]); crease.setAttribute('y2', onFold[1][1]);
+      crease.style.opacity = 1;
+    } else crease.style.opacity = 0;
+    // градієнт клапана: від лінії згину до кінчика
+    const k = Math.max(c, 0) / 2;
+    flapGrad.setAttribute('x1', k); flapGrad.setAttribute('y1', k);
+    flapGrad.setAttribute('x2', c - H); flapGrad.setAttribute('y2', c - W);
+    before.style.filter = `saturate(${.55 + p * .45}) brightness(${.98 - p * .1})`;
+    peel.style.setProperty('--p', Math.min(1, p).toFixed(3));
+    peel.classList.toggle('is-open', p > .18);
+    peel.classList.toggle('is-done', p > .72);
+    if (hint) hint.style.opacity = p > .04 ? 0 : 1;
+  };
+
+  const measure = () => {
+    const r = peel.getBoundingClientRect();
+    W = r.width; H = r.height;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    filmGrad.setAttribute('x2', W); filmGrad.setAttribute('y2', H);
+  };
+
+  const progress = () => {
+    if (reduce.matches) return .5;
+    const r = stage.getBoundingClientRect();
+    const run = r.height - (innerHeight - 72);
+    const p = run > 0 ? -r.top / run : 0;
+    // невелика пауза на старті й наприкінці
+    return Math.min(1, Math.max(0, (p - .06) / .8));
+  };
+
+  const tick = () => {
+    cur += (target - cur) * .16;
+    if (Math.abs(target - cur) < .001) cur = target;
+    draw(cur);
+    raf = cur !== target ? requestAnimationFrame(tick) : 0;
+  };
+  const onScroll = () => { target = progress(); if (!raf) raf = requestAnimationFrame(tick); };
+
+  // блиск по плівці при завантаженні — щоб було зрозуміло, що це плівка
+  const shine = () => {
+    if (reduce.matches) return;
+    const g = document.getElementById('sheenGrad'), t0 = performance.now(), d = 1400, span = W + H;
+    sheen.style.opacity = 1;
+    (function f(t) {
+      const k = Math.min(1, (t - t0) / d), x = -300 + (span + 600) * k;
+      g.setAttribute('x1', x); g.setAttribute('y1', 0); g.setAttribute('x2', x + 260); g.setAttribute('y2', 260);
+      if (k < 1) requestAnimationFrame(f); else sheen.style.opacity = 0;
+    })(t0);
+  };
+
+  measure(); target = cur = progress(); draw(cur);
+  addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('resize', () => { measure(); draw(cur); onScroll(); });
+  setTimeout(shine, 700);
+})();

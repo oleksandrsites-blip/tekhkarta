@@ -33,47 +33,90 @@
 
 <main>
 
-  <section class="hero">
-    <div class="container hero__grid">
+  <section class="stage" id="stage" aria-labelledby="hero-title">
+    <div class="stage__sticky container">
       <div class="hero__text">
-        <h1 class="h1">Відкриємо ваш заклад <span class="nobr-lg">за&nbsp;техкартою шефа</span></h1>
+        <h1 class="h1 hero__h1" id="hero-title"><span class="ln"><span>Відкриємо ваш заклад</span></span> <span class="ln"><span class="nobr-lg">за&nbsp;техкартою шефа</span></span></h1>
         <p class="hero__lead">Від порожнього приміщення до першого гостя за&nbsp;<span class="nobr">1,5–3&nbsp;місяці</span>. Концепція, кухня, меню, обладнання й команда розписані до дрібниць, а&nbsp;ціна фіксована й залежить від площі: від&nbsp;<span class="nobr">$2&nbsp;800</span>.</p>
         <div class="hero__actions">
-          <a class="btn btn--cta" href="#rozrakhunok">Отримати прорахунок закладу
+          <a class="btn btn--cta" href="#rozrakhunok">Отримати прорахунок
             <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="2"/></svg></a>
-          <a class="btn btn--ghost" href="https://t.me/Dima_Brss" target="_blank" rel="noopener">Написати шефу в&nbsp;Telegram</a>
+          <a class="btn btn--ghost" href="https://t.me/Dima_Brss" target="_blank" rel="noopener"><span>Написати в&nbsp;Telegram</span></a>
         </div>
-        <p class="hero__formats mono">Фастфуд · кав'ярні · піцерії · суші · бургерні · по всій Україні</p>
+        <p class="hero__hint mono" aria-hidden="true">Гортайте — знімаємо плівку <span>↓</span></p>
       </div>
 
-      <figure class="hero__photo">
-        <img src="img/chef.jpg" alt="Дмитро, бренд-шеф, у білому кітелі з вишитим іменем" width="853" height="1280" fetchpriority="high">
-        <span class="tape t1"><small>страва</small>ваш заклад</span>
-        <span class="tape t2"><small>готовність</small>1,5–3 місяці</span>
-        <span class="tape t3"><small>шеф</small>Дмитро · з 2012</span>
-      </figure>
+      <div class="peel" id="peel">
+        <video class="peel__before" src="video/kitchen.mp4" poster="img/kitchen.jpg" autoplay muted loop playsinline aria-hidden="true"></video>
+        <img class="peel__after" src="img/redcat.jpg" alt="День відкриття Red Cat Pub у Харкові: команда за барною стійкою" width="1271" height="1237">
+        <svg class="peel__svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="filmGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="900" y2="900">
+              <stop offset="0" stop-color="#fff" stop-opacity=".34"/>
+              <stop offset=".12" stop-color="#fff" stop-opacity=".08"/>
+              <stop offset=".22" stop-color="#fff" stop-opacity=".26"/>
+              <stop offset=".36" stop-color="#fff" stop-opacity=".05"/>
+              <stop offset=".5" stop-color="#fff" stop-opacity=".2"/>
+              <stop offset=".64" stop-color="#fff" stop-opacity=".06"/>
+              <stop offset=".8" stop-color="#fff" stop-opacity=".3"/>
+              <stop offset="1" stop-color="#fff" stop-opacity=".1"/>
+            </linearGradient>
+            <linearGradient id="sheenGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="300" y2="300">
+              <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+              <stop offset=".5" stop-color="#fff" stop-opacity=".55"/>
+              <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="flapGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#C9CDD0" stop-opacity=".78"/>
+              <stop offset=".06" stop-color="#FFFFFF" stop-opacity=".82"/>
+              <stop offset=".3" stop-color="#EEF0F1" stop-opacity=".55"/>
+              <stop offset=".55" stop-color="#FFFFFF" stop-opacity=".68"/>
+              <stop offset="1" stop-color="#E3E6E8" stop-opacity=".5"/>
+            </linearGradient>
+            <filter id="flapShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="6" dy="6" stdDeviation="9" flood-color="#000" flood-opacity=".32"/>
+            </filter>
+          </defs>
+          <polygon class="peel__film" fill="url(#filmGrad)"/>
+          <polygon class="peel__sheen" fill="url(#sheenGrad)"/>
+          <polygon class="peel__flap" fill="url(#flapGrad)" filter="url(#flapShadow)"/>
+          <line class="peel__crease" stroke="#fff" stroke-width="2" stroke-opacity=".9"/>
+        </svg>
+        <span class="tape peel__lab peel__lab--before"><small>старт</small>кухня ще в&nbsp;плівці</span>
+        <span class="tape peel__lab peel__lab--after"><small>через 1,5–3 місяці</small>перший гість</span>
+        <div class="peel__bar" aria-hidden="true"><span>старт</span><i><b></b></i><span>відкриття</span></div>
+      </div>
     </div>
   </section>
+
+  <div class="marq" aria-hidden="true"><div class="marq__in">
+    <span>шаурма</span><span>кав'ярня</span><span>піцерія</span><span>суші</span><span>бургерна</span><span>dark kitchen</span><span>пекарня</span><span>стрітфуд</span><span>кафе при ЖК</span><span>пивний ресторан</span><span>чебуречна</span><span>кондитерська</span>
+    <span>шаурма</span><span>кав'ярня</span><span>піцерія</span><span>суші</span><span>бургерна</span><span>dark kitchen</span><span>пекарня</span><span>стрітфуд</span><span>кафе при ЖК</span><span>пивний ресторан</span><span>чебуречна</span><span>кондитерська</span>
+  </div></div>
+  <p class="sr-only">Відкриваємо формати: шаурма, кав'ярня, піцерія, суші, бургерна, dark kitchen, пекарня, стрітфуд, кафе при ЖК, пивний ресторан, чебуречна, кондитерська — по всій Україні.</p>
 
   <section class="chef" id="shef" aria-labelledby="chef-title">
     <div class="container">
       <div class="chef__grid">
+        <figure class="chef__photo">
+          <img src="img/chef.jpg" alt="Дмитро, бренд-шеф, у білому кітелі з вишитим іменем" width="853" height="1280" loading="lazy">
+          <span class="tape t1"><small>шеф</small>Дмитро</span>
+          <span class="tape t2"><small>у HoReCa</small>з 2012 року</span>
+        </figure>
         <div class="chef__text">
-          <h2 class="h2" id="chef-title">Картку складає бренд-шеф, а&nbsp;не&nbsp;менеджер агенції</h2>
+          <h2 class="h2" id="chef-title">Техкарту складає бренд-шеф, а&nbsp;не&nbsp;менеджер агенції</h2>
           <p class="chef__lead">Дмитро в&nbsp;HoReCa з&nbsp;2012 року. За дипломом технолог харчової промисловості, має закордонну практику. Відкривав і&nbsp;перезапускав понад 20&nbsp;закладів по Україні: від фуд-кортів до пивного ресторану.</p>
           <blockquote class="quote">
             <p>Відкриваю не&nbsp;заради відкриття, а&nbsp;заради репутації. І&nbsp;з&nbsp;душею, бо люблю те, що роблю.</p>
             <footer class="mono">Дмитро, бренд-шеф</footer>
           </blockquote>
+          <dl class="facts">
+            <div class="facts__row"><dt class="mono">Закладів</dt><dd>20+ відкрито й перезапущено</dd></div>
+            <div class="facts__row"><dt class="mono">Географія</dt><dd>від Харкова до Кіровоградщини</dd></div>
+            <div class="facts__row"><dt class="mono">Освіта</dt><dd>технолог харчової промисловості</dd></div>
+            <div class="facts__row"><dt class="mono">Запуски</dt><dd>бренд-шеф мережі Red Cat Brewery</dd></div>
+          </dl>
         </div>
-
-        <dl class="facts">
-          <div class="facts__row"><dt class="mono">В HoReCa</dt><dd>з 2012 року</dd></div>
-          <div class="facts__row"><dt class="mono">Закладів</dt><dd>20+ відкрито й перезапущено</dd></div>
-          <div class="facts__row"><dt class="mono">Географія</dt><dd>від Харкова до Кіровоградщини</dd></div>
-          <div class="facts__row"><dt class="mono">Освіта</dt><dd>технолог харчової промисловості</dd></div>
-          <div class="facts__row"><dt class="mono">Запуски</dt><dd>бренд-шеф мережі Red Cat Brewery, Харків</dd></div>
-        </dl>
       </div>
 
       <div class="dishes">
