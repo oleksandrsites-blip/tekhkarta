@@ -131,3 +131,58 @@ if (sticky && heroActions && 'IntersectionObserver' in window) {
   addEventListener('resize', () => { measure(); draw(cur); onScroll(); });
   setTimeout(shine, 700);
 })();
+
+// ===== Поява блоків при скролі =====
+(() => {
+  const els = document.querySelectorAll('[data-reveal]');
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    els.forEach(e => e.classList.add('is-in')); return;
+  }
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+  }), { rootMargin: '0px 0px -12% 0px' });
+  els.forEach((e, i) => { e.style.transitionDelay = (i % 3) * 90 + 'ms'; io.observe(e); });
+})();
+
+// ===== Технологія: вертикальний скрол → горизонтальний рух кроків =====
+(() => {
+  const sec = document.querySelector('.tech');
+  if (!sec) return;
+  const pin = sec.querySelector('.tech__pin');
+  const track = sec.querySelector('.tech__track');
+  const vp = sec.querySelector('.tech__viewport');
+  const wide = matchMedia('(min-width: 1024px)');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  let dist = 0;
+
+  const setup = () => {
+    if (wide.matches && !reduce.matches) {
+      const pad = parseFloat(getComputedStyle(document.querySelector('.container')).paddingLeft);
+      const box = document.querySelector('.tech__head').getBoundingClientRect();
+      track.style.paddingLeft = box.left + pad + 'px';
+      track.style.paddingRight = box.left + pad + 'px';
+      dist = Math.max(0, track.scrollWidth - innerWidth);
+      sec.style.height = pin.offsetHeight + dist + 'px';
+    } else {
+      sec.style.height = ''; track.style.transform = ''; track.style.paddingLeft = track.style.paddingRight = '';
+      dist = 0;
+    }
+    update();
+  };
+  const update = () => {
+    let p;
+    if (dist) {
+      const r = sec.getBoundingClientRect();
+      p = Math.min(1, Math.max(0, (72 - r.top) / dist));
+      track.style.transform = `translate3d(${-p * dist}px,0,0)`;
+    } else {
+      p = vp.scrollWidth > vp.clientWidth ? vp.scrollLeft / (vp.scrollWidth - vp.clientWidth) : 0;
+    }
+    sec.style.setProperty('--tp', p.toFixed(3));
+  };
+  addEventListener('scroll', update, { passive: true });
+  vp.addEventListener('scroll', update, { passive: true });
+  addEventListener('resize', setup);
+  addEventListener('load', setup);
+  setup();
+})();
