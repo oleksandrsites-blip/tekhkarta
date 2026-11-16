@@ -7,6 +7,7 @@ const SITE_NAME = 'Техкарта';
 const FORMATS = ["Кав'ярня", 'Шаурма', 'Піцерія', 'Суші', 'Бургерна', 'Пекарня', 'Кафе', 'Інше'];
 const AREAS = ['до 20 м²', '20–40 м²', '40–60 м²', '60–80 м²', 'більше 80 м²'];
 const PLACES = ['Так', 'Шукаю', 'Ще не думав'];
+const SITUATIONS = ['Є ідея і бюджет', 'Є приміщення', 'Заклад працює, треба перезапуск'];
 
 const clean = (v, max) => String(v ?? '').replace(/[<>]/g, '').trim().slice(0, max);
 const pick = (v, list) => (list.includes(v) ? v : '');
@@ -23,6 +24,7 @@ export async function onRequestPost({ request, env }) {
   const format = pick(data.format, FORMATS);
   const area = pick(data.area, AREAS);
   const place = pick(data.place, PLACES);
+  const situation = pick(data.situation, SITUATIONS);
 
   const okContact = /^@?[a-zA-Z][\w]{4,31}$/.test(contact) || contact.replace(/\D/g, '').length >= 10;
   if (!/\p{L}{2}/u.test(name) || !okContact) return json({ ok: false }, 422);
@@ -35,6 +37,7 @@ export async function onRequestPost({ request, env }) {
     `🔔 Нова заявка на прорахунок — ${SITE_NAME}`, '',
     `Ім'я: ${name}`,
     `Контакт: ${contact}`,
+    situation && `Ситуація: ${situation}`,
     format && `Формат: ${format}`,
     area && `Площа: ${area}`,
     city && `Місто: ${city}`,

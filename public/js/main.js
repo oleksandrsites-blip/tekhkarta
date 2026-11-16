@@ -271,6 +271,11 @@ if (sticky && heroActions && 'IntersectionObserver' in window) {
     if (a) [...area.options].forEach(o => { o.selected = o.text === a; });
   };
   document.querySelectorAll('[data-pick-area], a[href="#rozrakhunok"]').forEach(l => l.addEventListener('click', applyArea));
+  // ситуація з карток «З чим приходять»
+  const sit = form.querySelector('#f-sit');
+  document.querySelectorAll('[data-situation]').forEach(l => l.addEventListener('click', () => {
+    [...sit.options].forEach(o => { o.selected = o.text === l.dataset.situation; });
+  }));
 
   const name = form.querySelector('#f-name'), contact = form.querySelector('#f-contact');
   const okName = () => /\p{L}{2}/u.test(name.value.trim());
