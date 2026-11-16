@@ -245,3 +245,54 @@ if (sticky && heroActions && 'IntersectionObserver' in window) {
   };
   addEventListener('scroll', f, { passive: true }); f();
 })();
+
+// ===== Форма прорахунку =====
+(() => {
+  const form = document.getElementById('leadForm');
+  if (!form) return;
+  const area = form.querySelector('#f-area');
+  const status = form.querySelector('.form__status');
+  const btn = form.querySelector('.form__btn');
+
+  // площа з калькулятора
+  const applyArea = () => {
+    let a; try { a = sessionStorage.getItem('area'); } catch (e) {}
+    if (a) [...area.options].forEach(o => { o.selected = o.text === a; });
+  };
+  document.querySelectorAll('[data-pick-area], a[href="#rozrakhunok"]').forEach(l => l.addEventListener('click', applyArea));
+
+  const name = form.querySelector('#f-name'), contact = form.querySelector('#f-contact');
+  const okName = () => /\p{L}{2}/u.test(name.value.trim());
+  const okContact = () => {
+    const v = contact.value.trim();
+    return /^@?[a-zA-Z][\w]{4,31}$/.test(v) || v.replace(/\D/g, '').length >= 10;
+  };
+  const mark = (input, ok) => {
+    input.closest('.field').classList.toggle('is-error', !ok);
+    input.setAttribute('aria-invalid', !ok);
+  };
+  [[name, okName], [contact, okContact]].forEach(([el, fn]) =>
+    el.addEventListener('blur', () => { if (el.value) mark(el, fn()); }));
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const a = okName(), b = okContact();
+    mark(name, a); mark(contact, b);
+    if (!a) { name.focus(); return; }
+    if (!b) { contact.focus(); return; }
+
+    const data = Object.fromEntries(new FormData(form));
+    btn.disabled = true;
+    status.className = 'form__status'; status.textContent = 'Надсилаємо…';
+    try {
+      const r = await fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      if (!r.ok) throw new Error(r.status);
+      form.reset(); applyArea();
+      status.className = 'form__status is-ok';
+      status.textContent = 'Заявку прийнято. Шеф напише вам у Telegram або зателефонує.';
+    } catch (err) {
+      status.className = 'form__status is-err';
+      status.innerHTML = 'Не вдалося надіслати. Напишіть шефу напряму: <a href="https://t.me/Dima_Brss" target="_blank" rel="noopener">@Dima_Brss</a>';
+    } finally { btn.disabled = false; }
+  });
+})();

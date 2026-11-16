@@ -1,7 +1,38 @@
 {
   "version": "0.0.1",
   "configurations": [
-    { "name": "tekhkarta", "runtimeExecutable": "python3", "runtimeArgs": ["-m", "http.server", "8080", "--directory", "public"], "port": 8080 },
-    { "name": "style-tile", "runtimeExecutable": "python3", "runtimeArgs": ["-m", "http.server", "8081", "--directory", "docs"], "port": 8081 }
+    {
+      "name": "tekhkarta",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8080",
+        "--directory",
+        "public"
+      ],
+      "port": 8080
+    },
+    {
+      "name": "style-tile",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8081",
+        "--directory",
+        "docs"
+      ],
+      "port": 8081
+    },
+    {
+      "name": "preview-mirror",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "cd '/Users/alexlys/Library/Application Support/Claude/scratch-workspaces/8489ec47-26b2-4b33-b044-233e6e534254/4f045c14-b54f-4a1b-9591-482de5e1616a/scratch-2026-11-15-72989c/mirror' && exec python3 -m http.server 8090"
+      ],
+      "port": 8090
+    }
   ]
 }

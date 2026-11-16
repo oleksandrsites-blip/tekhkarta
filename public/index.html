@@ -282,7 +282,76 @@
     </div>
   </section>
 
+
+  <section class="lead" id="rozrakhunok" aria-labelledby="lead-title">
+    <div class="container lead__grid">
+      <div class="lead__text">
+        <h2 class="h2" id="lead-title">Розкажіть про заклад, і&nbsp;шеф порахує, скільки він коштуватиме</h2>
+        <p class="lead__sub">Шеф відповість особисто в&nbsp;Telegram. <span class="need">[ПОТРІБНО: за який час відповідає]</span></p>
+        <p class="lead__alt">Або напишіть одразу: <a href="https://t.me/Dima_Brss" target="_blank" rel="noopener">@Dima_Brss</a></p>
+      </div>
+
+      <form class="form" id="leadForm" novalidate>
+        <span class="tape form__tag" aria-hidden="true">заявка на прорахунок</span>
+        <div class="form__row">
+          <div class="field">
+            <label for="f-format">Формат закладу</label>
+            <select id="f-format" name="format">
+              <option>Кав'ярня</option><option>Шаурма</option><option>Піцерія</option><option>Суші</option><option>Бургерна</option><option>Пекарня</option><option>Кафе</option><option>Інше</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-area">Площа</label>
+            <select id="f-area" name="area">
+              <option>до 20 м²</option><option selected>20–40 м²</option><option>40–60 м²</option><option>60–80 м²</option><option>більше 80 м²</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-city">Місто</label>
+          <input id="f-city" name="city" autocomplete="address-level2" placeholder="Наприклад, Рівне">
+        </div>
+        <fieldset class="field field--radios">
+          <legend>Приміщення вже є?</legend>
+          <div class="radios">
+            <label><input type="radio" name="place" value="Так" checked><span>так</span></label>
+            <label><input type="radio" name="place" value="Шукаю"><span>ні, шукаю</span></label>
+            <label><input type="radio" name="place" value="Ще не думав"><span>ще не думав</span></label>
+          </div>
+        </fieldset>
+        <div class="form__row">
+          <div class="field">
+            <label for="f-name">Ім'я</label>
+            <input id="f-name" name="name" autocomplete="given-name" required aria-describedby="e-name">
+            <small class="field__err" id="e-name">Як до вас звертатися?</small>
+          </div>
+          <div class="field">
+            <label for="f-contact">Telegram або телефон</label>
+            <input id="f-contact" name="contact" autocomplete="tel" placeholder="@нік або +380…" required aria-describedby="e-contact">
+            <small class="field__err" id="e-contact">Залиште @нік або номер, щоб шеф міг відповісти</small>
+          </div>
+        </div>
+        <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn btn--cta form__btn" type="submit">Отримати прорахунок
+          <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="2"/></svg></button>
+        <p class="form__status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
 </main>
+
+<footer class="footer">
+  <div class="container footer__in">
+    <a class="logo logo--inv" href="#top" aria-label="Техкарта — на початок"><span class="logo__dot" aria-hidden="true">т</span><b>техкарта</b></a>
+    <p class="footer__desc">Відкриття закладів під ключ по всій Україні</p>
+    <nav class="footer__nav" aria-label="Навігація у футері">
+      <a href="#sklad">Склад</a><a href="#tekhnolohiia">Технологія</a><a href="#vartist">Вартість</a><a href="#zaklady">Заклади</a>
+    </nav>
+    <a class="footer__tg" href="https://t.me/Dima_Brss" target="_blank" rel="noopener">Telegram: @Dima_Brss</a>
+    <p class="footer__copy">© 2026 Техкарта</p>
+  </div>
+</footer>
 
 <div class="sticky-cta" aria-hidden="true">
   <a class="btn btn--cta" href="#rozrakhunok" tabindex="-1">Отримати прорахунок</a>
