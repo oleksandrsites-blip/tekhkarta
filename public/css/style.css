@@ -107,6 +107,14 @@ main{overflow-x:clip}
 .hero__actions{display:flex;gap:8px;margin-top:18px}
 .hero__actions .btn{flex:1;min-height:48px;padding-inline:12px;font-size:15px}
 .hero__actions .btn svg{display:none}
+.hero__facts{margin-top:12px;color:var(--muted)}
+.hero__chef{display:none;align-items:center;gap:14px;margin-top:36px}
+.hero__chef img{width:56px;height:56px;border-radius:50%;object-fit:cover;object-position:50% 12%;box-shadow:0 0 0 3px var(--bg),0 0 0 4.5px var(--accent)}
+.hero__chef p{display:grid;line-height:1.3}
+.hero__chef b{font-weight:600}
+.hero__chef span{color:var(--muted);font-size:15px}
+.extra__price{color:var(--muted);font-weight:500}
+@media (max-width:639px){.extra__list li{flex-direction:column;align-items:flex-start;gap:4px}}
 .hero__hint{display:none;margin-top:28px;color:var(--muted);transition:opacity .3s}
 .hero__hint span{display:inline-block;animation:bob 1.6s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(4px)}}
@@ -131,6 +139,7 @@ main{overflow-x:clip}
 @media (min-width:768px){
   .hide-sm{display:inline}
   .hero__lead{display:block}
+  .hero__facts{display:none}
   .hero__actions{gap:12px;margin-top:32px}
   .hero__actions .btn{flex:0 0 auto;min-height:56px;padding-inline:28px;font-size:17px}
   .hero__actions .btn svg{display:block}
@@ -139,6 +148,7 @@ main{overflow-x:clip}
   .stage__sticky{grid-template-rows:none;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:56px;align-items:stretch;padding-top:24px;padding-bottom:32px}
   .hero__text{align-self:center}
   .hero__hint{display:block}
+  .hero__chef{display:flex}
 }
 @media (max-height:640px) and (max-width:767px){.peel__bar{display:none}}
 

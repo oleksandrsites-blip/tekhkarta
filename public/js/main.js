@@ -44,7 +44,7 @@ if (sticky && heroActions && 'IntersectionObserver' in window) {
   const filmGrad = document.getElementById('filmGrad');
   const hint = document.querySelector('.hero__hint');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-  let W = 0, H = 0, target = 0, cur = 0, raf = 0;
+  let W = 0, H = 0, target = 0, cur = 0, raf = 0, teaser = 0;
 
   // Частина прямокутника по один бік лінії x + y = c
   const clip = (c, keepBig) => {
@@ -109,7 +109,7 @@ if (sticky && heroActions && 'IntersectionObserver' in window) {
   const tick = () => {
     cur += (target - cur) * .16;
     if (Math.abs(target - cur) < .001) cur = target;
-    draw(cur);
+    draw(Math.max(cur, teaser));
     raf = cur !== target ? requestAnimationFrame(tick) : 0;
   };
   const onScroll = () => { target = progress(); if (!raf) raf = requestAnimationFrame(tick); };
@@ -122,13 +122,24 @@ if (sticky && heroActions && 'IntersectionObserver' in window) {
     (function f(t) {
       const k = Math.min(1, (t - t0) / d), x = -300 + (span + 600) * k;
       g.setAttribute('x1', x); g.setAttribute('y1', 0); g.setAttribute('x2', x + 260); g.setAttribute('y2', 260);
-      if (k < 1) requestAnimationFrame(f); else sheen.style.opacity = 0;
+      if (k < 1) requestAnimationFrame(f); else { sheen.style.opacity = 0; lift(); }
+    })(t0);
+  };
+
+  // кут плівки трохи відгинається сам — підказка, що її можна зняти
+  const lift = () => {
+    const t0 = performance.now(), d = 900;
+    (function f(t) {
+      const k = Math.min(1, (t - t0) / d);
+      teaser = .07 * (1 - Math.pow(1 - k, 3));
+      if (cur < teaser) draw(teaser);
+      if (k < 1) requestAnimationFrame(f);
     })(t0);
   };
 
   measure(); target = cur = progress(); draw(cur);
   addEventListener('scroll', onScroll, { passive: true });
-  addEventListener('resize', () => { measure(); draw(cur); onScroll(); });
+  addEventListener('resize', () => { measure(); draw(Math.max(cur, teaser)); onScroll(); });
   setTimeout(shine, 700);
 })();
 
