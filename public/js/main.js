@@ -19,6 +19,18 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   Promise.race([Promise.all([img, fonts, wait(reduce ? 0 : 900)]), wait(3000)]).then(go);
 })();
 
+// ===== Без «сиріт»: останні два слова в заголовках і коротких рядках не розриваються =====
+(() => {
+  document.querySelectorAll('h1, h2, h3, summary, .qa__item p, .burger-tk__list li, .vrow b, .flow__step p, .lead__sub, .venues__cta p, .frame__text').forEach(el => {
+    const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    let last = null, n;
+    while ((n = walk.nextNode())) if (n.data.trim()) last = n;
+    if (!last) return;
+    const m = last.data.match(/^(.*\S)\s+(\S{1,12})(\s*)$/s);
+    if (m) last.data = m[1] + '\u00a0' + m[2] + m[3];
+  });
+})();
+
 // ===== Меню =====
 (() => {
   const burger = document.querySelector('.burger');
