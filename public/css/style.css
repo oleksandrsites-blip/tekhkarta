@@ -87,9 +87,9 @@ main{overflow-x:clip}
     radial-gradient(ellipse 80% 70% at 50% 50%,#1C1B19 0%,#0E0E0D 70%);}
 .hero__light::after{content:"";position:absolute;inset:0;opacity:.22;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E")}
-.hero__word{position:absolute;z-index:1;left:0;right:0;top:calc(var(--header-h) + 5vh);text-align:center;white-space:nowrap;
+.hero__word{position:absolute;z-index:1;left:var(--gutter);right:var(--gutter);top:calc(var(--header-h) + 5vh);text-align:center;white-space:nowrap;
   font:400 clamp(64px,14.2vw,260px)/.86 var(--display);letter-spacing:-.05em;text-transform:uppercase;color:var(--text);will-change:transform}
-.hero__thin{font-weight:200}
+.hero__thin{font-weight:300}
 .hero__bold{font-weight:800}
 .hero__word span{display:inline-block;animation:wordIn 1.4s var(--ease) both}
 .hero__word .hero__bold{animation-delay:.12s}
@@ -309,7 +309,7 @@ main{overflow-x:clip}
 
 /* ===== Футер ===== */
 .footer{border-top:1px solid var(--line);padding:56px 0 calc(32px + env(safe-area-inset-bottom));overflow:hidden}
-.footer__word{text-align:center;white-space:nowrap;font:400 clamp(56px,14.2vw,260px)/.86 var(--display);letter-spacing:-.05em;text-transform:uppercase;color:#262624;margin-bottom:48px}
+.footer__word{padding-inline:var(--gutter);text-align:center;white-space:nowrap;font:400 clamp(56px,14.2vw,260px)/.86 var(--display);letter-spacing:-.05em;text-transform:uppercase;color:#262624;margin-bottom:48px}
 .footer__in{display:grid;gap:12px;color:var(--muted)}
 .footer__tg{color:var(--text);text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
 .footer__tg:hover{color:var(--accent-2)}

@@ -19,14 +19,15 @@ export async function onRequestPost({ request, env }) {
   if (data.company) return json({ ok: true }); // honeypot
 
   const name = clean(data.name, 60);
-  const contact = clean(data.contact, 40);
+  const phone = clean(data.phone, 24);
+  const via = ['Telegram', 'Viber', 'WhatsApp', 'Дзвінок'].includes(data.via) ? data.via : '';
   const city = clean(data.city, 60);
   const format = pick(data.format, FORMATS);
   const area = pick(data.area, AREAS);
   const place = pick(data.place, PLACES);
   const situation = pick(data.situation, SITUATIONS);
 
-  const okContact = /^@?[a-zA-Z][\w]{4,31}$/.test(contact) || contact.replace(/\D/g, '').length >= 10;
+  const okContact = /^0\d{9}$/.test(phone.replace(/\D/g, '').replace(/^38/, ''));
   if (!/\p{L}{2}/u.test(name) || !okContact) return json({ ok: false }, 422);
 
   const token = env.TELEGRAM_BOT_TOKEN;
@@ -36,7 +37,8 @@ export async function onRequestPost({ request, env }) {
   const lines = [
     `🔔 Нова заявка на прорахунок — ${SITE_NAME}`, '',
     `Ім'я: ${name}`,
-    `Контакт: ${contact}`,
+    `Телефон: ${phone}`,
+    via && `Зв'язок: ${via}`,
     situation && `Ситуація: ${situation}`,
     format && `Формат: ${format}`,
     area && `Площа: ${area}`,

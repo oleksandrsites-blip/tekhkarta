@@ -45,6 +45,20 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   els.forEach(e => io.observe(e));
 })();
 
+// ===== Слово ТЕХКАРТА на всю ширину =====
+(() => {
+  const words = document.querySelectorAll('.hero__word, .footer__word');
+  const fit = () => words.forEach(w => {
+    w.style.fontSize = '100px';
+    const cs = getComputedStyle(w), box = w.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    let width = 0; w.querySelectorAll('span').forEach(s => width += s.getBoundingClientRect().width);
+    if (width) w.style.fontSize = (100 * box / width * .995) + 'px';
+  });
+  fit();
+  if (document.fonts) document.fonts.ready.then(fit);
+  addEventListener('resize', fit);
+})();
+
 // ===== Hero: дим =====
 (() => {
   const c = document.querySelector('.hero__smoke');
@@ -267,9 +281,33 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   };
   document.querySelectorAll('a[href="#rozrakhunok"]').forEach(l => l.addEventListener('click', applyArea));
 
-  const name = form.querySelector('#f-name'), contact = form.querySelector('#f-contact');
+  const name = form.querySelector('#f-name'), contact = form.querySelector('#f-phone');
+  // маска +38 (0XX) XXX-XX-XX: максимум 10 цифр після +38
+  const fmtPhone = v => {
+    let d = v.replace(/\D/g, '');
+    if (d.startsWith('38')) d = d.slice(2);
+    d = d.replace(/^00/, '0');
+    if (d && d[0] !== '0') d = '0' + d;
+    d = d.slice(0, 10);
+    if (!d) return '';
+    let out = '+38 (' + d.slice(0, 3);
+    if (d.length >= 3) out += ')';
+    if (d.length > 3) out += ' ' + d.slice(3, 6);
+    if (d.length > 6) out += '-' + d.slice(6, 8);
+    if (d.length > 8) out += '-' + d.slice(8, 10);
+    return out;
+  };
+  contact.addEventListener('input', e => {
+    let v = contact.value;
+    // стерли дужку/дефіс — прибираємо й останню цифру, щоб Backspace не «застрягав»
+    if (e.inputType === 'deleteContentBackward' && contact.dataset.prev && v.replace(/\D/g, '') === contact.dataset.prev.replace(/\D/g, '')) v = v.replace(/\d(?=\D*$)/, '');
+    contact.value = fmtPhone(v);
+    contact.dataset.prev = contact.value;
+  });
+  contact.addEventListener('focus', () => { if (!contact.value) contact.value = '+38 (0'; });
+  contact.addEventListener('blur', () => { if (contact.value.replace(/\D/g, '').length <= 3) contact.value = ''; });
   const okName = () => /\p{L}{2}/u.test(name.value.trim());
-  const okContact = () => { const v = contact.value.trim(); return /^@?[a-zA-Z][\w]{4,31}$/.test(v) || v.replace(/\D/g, '').length >= 10; };
+  const okContact = () => /^0\d{9}$/.test(contact.value.replace(/\D/g, '').replace(/^38/, ''));
   const mark = (input, ok) => { input.closest('.field').classList.toggle('is-error', !ok); input.setAttribute('aria-invalid', !ok); };
   [[name, okName], [contact, okContact]].forEach(([el, fn]) => el.addEventListener('blur', () => { if (el.value) mark(el, fn()); }));
 

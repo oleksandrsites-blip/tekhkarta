@@ -218,7 +218,7 @@
       <div class="lead__text">
         <p class="label">// прорахунок</p>
         <h2 class="h2" id="lead-title">Розкажіть про заклад, і&nbsp;шеф порахує, скільки він коштуватиме</h2>
-        <p class="lead__sub">Два поля — і шеф напише вам з&nbsp;першими цифрами. Або одразу в&nbsp;Telegram: <a href="https://t.me/Dima_Brss" target="_blank" rel="noopener">@Dima_Brss</a></p>
+        <p class="lead__sub">Ім'я й телефон — і шеф напише вам з&nbsp;першими цифрами. Або одразу в&nbsp;Telegram: <a href="https://t.me/Dima_Brss" target="_blank" rel="noopener">@Dima_Brss</a></p>
       </div>
       <form class="form" id="leadForm" novalidate>
         <fieldset class="field field--radios">
@@ -235,10 +235,19 @@
           <small class="field__err" id="e-name">Як до вас звертатися?</small>
         </div>
         <div class="field">
-          <label for="f-contact">Telegram або телефон</label>
-          <input id="f-contact" name="contact" autocomplete="tel" placeholder="@нік або +380…" required aria-describedby="e-contact">
-          <small class="field__err" id="e-contact">Залиште @нік або номер</small>
+          <label for="f-phone">Телефон</label>
+          <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+38 (0__) ___-__-__" required aria-describedby="e-phone" maxlength="19">
+          <small class="field__err" id="e-phone">Введіть номер повністю: +38 (0XX) XXX-XX-XX</small>
         </div>
+        <fieldset class="field field--radios">
+          <legend>Як зручніше зв'язатися</legend>
+          <div class="radios">
+            <label><input type="radio" name="via" value="Telegram" checked><span>Telegram</span></label>
+            <label><input type="radio" name="via" value="Viber"><span>Viber</span></label>
+            <label><input type="radio" name="via" value="WhatsApp"><span>WhatsApp</span></label>
+            <label><input type="radio" name="via" value="Дзвінок"><span>Дзвінок</span></label>
+          </div>
+        </fieldset>
         <input type="hidden" name="area" id="f-area" value="">
         <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
         <button class="btn btn--fill form__btn" type="submit">Отримати прорахунок <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="1.6"/></svg></button>
