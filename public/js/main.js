@@ -138,34 +138,34 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   addEventListener('scroll', f, { passive: true }); f();
 })();
 
-// ===== Техкарта бургера: бургер розлітається на шари =====
+// ===== Техкарта бургера: зібраний бургер плавно розлітається на шари =====
 (() => {
   const sec0 = document.querySelector('.burger-tk');
   if (!sec0) return;
   const sec = sec0.querySelector('.burger-tk__track');
-  const full = sec0.querySelector('.bt__full');
   const layers = [...sec0.querySelectorAll('.bt__l')];
   const bt = sec0.querySelector('.bt');
-  const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const C = layers.map(l => parseFloat(l.style.getPropertyValue('--c')));
+  const ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
   const draw = p => {
     const H = bt.offsetHeight;
-    const fade = clamp01((p - .08) / .16);          // зібраний → шари
-    const spread = ease(clamp01((p - .1) / .7));      // розліт
-    const k = -.36 + spread * .46;                    // від стиснутого до розлетілого
-    full.style.opacity = 1 - fade;
-    full.style.transform = `scale(${.98 - fade * .04})`;
-    layers.forEach(l => {
-      const c = parseFloat(l.style.getPropertyValue('--c'));
-      l.style.opacity = fade;
-      l.style.transform = `translateY(${c / 100 * H * k}px)`;
+    const e = ease(p);
+    const k = -.34 + e * .42;              // від зібраного (-0.34) до розлетілого (+0.08)
+    layers.forEach((l, i) => {
+      const rot = (i % 2 ? -1 : 1) * 2.2 * e * (i === 0 || i === layers.length - 1 ? .5 : 1);
+      l.style.transform = `translateY(${C[i] / 100 * H * k}px) rotate(${rot}deg) scale(${1 + e * .03})`;
     });
   };
   if (reduce) { draw(1); return; }
+  let target = 0, cur = 0, raf = 0;
+  const tick = () => { cur += (target - cur) * .14; if (Math.abs(target - cur) < .0005) cur = target; draw(cur); raf = cur !== target ? requestAnimationFrame(tick) : 0; };
   const f = () => {
     const r = sec.getBoundingClientRect();
-    draw(clamp01(-r.top / (sec.offsetHeight - innerHeight)));
+    // старт ще до закріплення: поки секція заїжджає на екран, бургер уже починає рух
+    target = clamp01((innerHeight * .6 - r.top) / (sec.offsetHeight - innerHeight * .4));
+    if (!raf) raf = requestAnimationFrame(tick);
   };
-  addEventListener('scroll', f, { passive: true }); addEventListener('resize', f); f();
+  addEventListener('scroll', f, { passive: true }); addEventListener('resize', f); f(); cur = target; draw(cur);
 })();
 
 // ===== Як працюємо: активний крок і фото поруч =====
