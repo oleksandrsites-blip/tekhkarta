@@ -1,6 +1,24 @@
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clamp01 = v => Math.min(1, Math.max(0, v));
 
+// ===== Прелоадер: чекаємо шрифти й фото шефа, потім м'яко відкриваємо сторінку =====
+(() => {
+  const root = document.documentElement;
+  const chef = document.querySelector('.hero__chef');
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  const img = chef ? (chef.decode ? chef.decode().catch(() => {}) : new Promise(r => chef.complete ? r() : chef.addEventListener('load', r))) : Promise.resolve();
+  const fonts = document.fonts ? document.fonts.ready : Promise.resolve();
+  const go = () => {
+    if (root.classList.contains('is-ready')) return;
+    window.dispatchEvent(new Event('tk:fit'));
+    setTimeout(() => {
+      root.classList.add('is-ready');
+      setTimeout(() => root.classList.add('is-gone'), 1000);
+    }, 30);
+  };
+  Promise.race([Promise.all([img, fonts, wait(reduce ? 0 : 900)]), wait(3000)]).then(go);
+})();
+
 // ===== Меню =====
 (() => {
   const burger = document.querySelector('.burger');
@@ -57,6 +75,7 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   fit();
   if (document.fonts) document.fonts.ready.then(fit);
   addEventListener('resize', fit);
+  addEventListener('tk:fit', fit);
 })();
 
 // ===== Hero: дим =====
@@ -110,19 +129,35 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   tick();
 })();
 
-// ===== Hero: глибина при скролі =====
+// ===== Hero: глибина при скролі й русі мишки =====
 (() => {
   const hero = document.querySelector('.hero');
-  const word = document.querySelector('.hero__word');
-  const chef = document.querySelector('.hero__chef');
   if (!hero || reduce) return;
-  const f = () => {
-    const p = clamp01(scrollY / hero.offsetHeight);
-    if (p >= 1) return;
-    word.style.transform = `translateY(${p * 22}vh)`;
-    chef.style.transform = `translate(-50%, ${p * 8}vh) scale(${1 + p * .06})`;
+  const lw = hero.querySelector('.hero__layer--word');
+  const lc = hero.querySelector('.hero__layer--chef');
+  const word = hero.querySelector('.hero__word');
+  let mx = 0, my = 0, tx = 0, ty = 0, sp = 0, raf = 0;
+  const draw = () => {
+    mx += (tx - mx) * .08; my += (ty - my) * .08;
+    const dist = Math.min(1, Math.hypot(mx, my));
+    lw.style.transform = `translate3d(${-mx * 18}px, ${sp * 22}vh, 0) translate3d(0, ${-my * 10}px, 0)`;
+    lc.style.transform = `translate3d(${mx * 14}px, ${sp * 8}vh, 0) scale(${1 + sp * .06})`;
+    word.style.filter = `blur(${(dist * 3.5).toFixed(2)}px)`;
+    hero.style.setProperty('--mx', (50 + mx * 30) + '%');
+    hero.style.setProperty('--my', (42 + my * 25) + '%');
+    raf = Math.abs(tx - mx) + Math.abs(ty - my) > .001 ? requestAnimationFrame(draw) : 0;
   };
-  addEventListener('scroll', f, { passive: true });
+  const kick = () => { if (!raf) raf = requestAnimationFrame(draw); };
+  addEventListener('scroll', () => { sp = clamp01(scrollY / hero.offsetHeight); kick(); }, { passive: true });
+  if (matchMedia('(hover: hover)').matches) {
+    hero.addEventListener('pointermove', e => {
+      const r = hero.getBoundingClientRect();
+      tx = (e.clientX - r.left) / r.width * 2 - 1;
+      ty = (e.clientY - r.top) / r.height * 2 - 1;
+      kick();
+    });
+    hero.addEventListener('pointerleave', () => { tx = ty = 0; kick(); });
+  }
 })();
 
 // ===== Маніфест: слова проявляються при скролі =====
@@ -282,32 +317,30 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   document.querySelectorAll('a[href="#rozrakhunok"]').forEach(l => l.addEventListener('click', applyArea));
 
   const name = form.querySelector('#f-name'), contact = form.querySelector('#f-phone');
-  // маска +38 (0XX) XXX-XX-XX: максимум 10 цифр після +38
-  const fmtPhone = v => {
-    let d = v.replace(/\D/g, '');
-    if (d.startsWith('38')) d = d.slice(2);
-    d = d.replace(/^00/, '0');
-    if (d && d[0] !== '0') d = '0' + d;
-    d = d.slice(0, 10);
-    if (!d) return '';
-    let out = '+38 (' + d.slice(0, 3);
-    if (d.length >= 3) out += ')';
-    if (d.length > 3) out += ' ' + d.slice(3, 6);
-    if (d.length > 6) out += '-' + d.slice(6, 8);
-    if (d.length > 8) out += '-' + d.slice(8, 10);
-    return out;
+  // справжня маска: шаблон видно одразу, вводяться лише 9 цифр після «+38 (0»
+  const MASK = '+38 (0__) ___-__-__';
+  let digits = '';
+  const render = () => {
+    let i = 0;
+    contact.value = MASK.replace(/_/g, () => i < digits.length ? digits[i++] : '_');
+    const pos = digits.length ? (() => { let k = 0, p = 0; for (; p < MASK.length; p++) if (MASK[p] === '_' && ++k === digits.length) break; return p + 1; })() : MASK.indexOf('_');
+    requestAnimationFrame(() => contact.setSelectionRange(pos, pos));
   };
-  contact.addEventListener('input', e => {
-    let v = contact.value;
-    // стерли дужку/дефіс — прибираємо й останню цифру, щоб Backspace не «застрягав»
-    if (e.inputType === 'deleteContentBackward' && contact.dataset.prev && v.replace(/\D/g, '') === contact.dataset.prev.replace(/\D/g, '')) v = v.replace(/\d(?=\D*$)/, '');
-    contact.value = fmtPhone(v);
-    contact.dataset.prev = contact.value;
+  const fromText = t => { let d = t.replace(/\D/g, ''); d = d.replace(/^380/, '').replace(/^38/, '').replace(/^0/, ''); return d.slice(0, 9); };
+  contact.addEventListener('focus', () => render());
+  contact.addEventListener('blur', () => { if (!digits) contact.value = ''; });
+  contact.addEventListener('beforeinput', e => {
+    e.preventDefault();
+    if (e.inputType.startsWith('delete')) digits = digits.slice(0, -1);
+    else if (e.inputType === 'insertFromPaste' || e.inputType === 'insertReplacementText') digits = fromText((e.data || (e.dataTransfer && e.dataTransfer.getData('text')) || ''));
+    else if (e.data && /\d/.test(e.data)) digits = (digits + e.data.replace(/\D/g, '')).slice(0, 9);
+    render();
   });
-  contact.addEventListener('focus', () => { if (!contact.value) contact.value = '+38 (0'; });
-  contact.addEventListener('blur', () => { if (contact.value.replace(/\D/g, '').length <= 3) contact.value = ''; });
+  contact.addEventListener('paste', e => { e.preventDefault(); digits = fromText(e.clipboardData.getData('text')); render(); });
+  // запасний шлях для браузерів без beforeinput
+  contact.addEventListener('input', () => { const d = fromText(contact.value.replace(/^\+38 \(0/, '')); if (d !== digits) { digits = d; render(); } });
   const okName = () => /\p{L}{2}/u.test(name.value.trim());
-  const okContact = () => /^0\d{9}$/.test(contact.value.replace(/\D/g, '').replace(/^38/, ''));
+  const okContact = () => digits.length === 9;
   const mark = (input, ok) => { input.closest('.field').classList.toggle('is-error', !ok); input.setAttribute('aria-invalid', !ok); };
   [[name, okName], [contact, okContact]].forEach(([el, fn]) => el.addEventListener('blur', () => { if (el.value) mark(el, fn()); }));
 
@@ -323,7 +356,7 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
     try {
       const r = await fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
       if (!r.ok) throw new Error(r.status);
-      form.reset(); applyArea();
+      form.reset(); digits = ''; applyArea();
       status.className = 'form__status is-ok';
       status.textContent = 'Заявку прийнято. Шеф напише вам у Telegram або зателефонує.';
     } catch (err) {

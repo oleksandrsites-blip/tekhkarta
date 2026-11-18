@@ -26,6 +26,10 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<div class="preloader" aria-hidden="true">
+  <div class="preloader__in"><span class="logo__dot">т</span><span class="preloader__bar"><i></i></span></div>
+</div>
+<noscript><style>.preloader{display:none}.hero__word span,.hero__chef,.hero__bottom,.hero__side{opacity:1!important}</style></noscript>
 
 <header class="header" id="top">
   <div class="container header__in">
@@ -48,20 +52,26 @@
   <!-- ===== HERO ===== -->
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero__light" aria-hidden="true"></div>
-    <p class="hero__word" aria-hidden="true"><span class="hero__thin">тех</span><span class="hero__bold">карта</span></p>
-    <img class="hero__chef" src="img/chef-cut.png" alt="Дмитро, бренд-шеф, у білому кітелі" width="714" height="1200" fetchpriority="high">
+    <div class="hero__layer hero__layer--word" aria-hidden="true"><p class="hero__word"><span class="hero__thin">тех</span><span class="hero__bold">карта</span></p></div>
+    <div class="hero__layer hero__layer--chef"><img class="hero__chef" src="img/chef-cut.png" alt="Дмитро, бренд-шеф, у білому кітелі" width="714" height="1200" fetchpriority="high"></div>
     <canvas class="hero__smoke" aria-hidden="true"></canvas>
     <div class="hero__shade" aria-hidden="true"></div>
 
     <div class="container hero__ui">
-      <p class="hero__side">Бренд-шеф Дмитро<br>у HoReCa з 2012<br>20+ відкритих закладів</p>
+      <ul class="hero__side" aria-label="Коротко">
+        <li><b>20+</b> відкритих закладів</li>
+        <li>у HoReCa з&nbsp;<b>2012</b></li>
+        <li><b>1,5–3</b> місяці до&nbsp;відкриття</li>
+        <li>від <b>$2&nbsp;800</b>, фіксовано</li>
+      </ul>
       <div class="hero__bottom">
         <div class="hero__left">
           <h1 class="hero__h1" id="hero-title">Відкриємо ваш заклад за&nbsp;техкартою шефа</h1>
-          <p class="hero__lead">Від порожнього приміщення до першого гостя за&nbsp;1,5–3&nbsp;місяці. Фастфуд, кав'ярні, піцерії, суші — по&nbsp;всій Україні.</p>
+          <p class="hero__lead">Від порожнього приміщення до першого гостя за&nbsp;1,5–3&nbsp;місяці. Ціна фіксована й залежить від площі — від&nbsp;$2&nbsp;800. По всій Україні.</p>
+          <p class="hero__proof">20+ закладів · з&nbsp;2012 · від&nbsp;$2&nbsp;800</p>
         </div>
         <div class="hero__right">
-          <a class="btn btn--line" href="#rozrakhunok">Отримати прорахунок <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="1.6"/></svg></a>
+          <a class="btn btn--fill" href="#rozrakhunok">Отримати прорахунок <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="1.6"/></svg></a>
           <a class="hero__tg" href="https://t.me/Dima_Brss" target="_blank" rel="noopener">або напишіть у Telegram</a>
         </div>
       </div>
@@ -176,7 +186,7 @@
       </div>
       <div class="cost__after">
         <p class="cost__note">Цифри попередні: точний прорахунок — після консультації. Інвестиції — це ремонт, обладнання й запуск, без оплати послуги. Окупність рахуємо в&nbsp;бізнес-плані під ваш формат і&nbsp;місто.</p>
-        <a class="btn btn--line cost__cta" href="#rozrakhunok" data-pick-area>Отримати точний прорахунок <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="1.6"/></svg></a>
+        <a class="btn btn--fill cost__cta" href="#rozrakhunok" data-pick-area>Отримати точний прорахунок <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="1.6"/></svg></a>
       </div>
     </div>
   </section>
@@ -193,6 +203,7 @@
         <li class="vrow"><img src="img/eatit.jpg" alt="Фасад закладу Eat it" width="1100" height="836" loading="lazy"><b>Eat it</b><span>молодіжний формат · при ЖК</span></li>
         <li class="vrow"><img src="img/gsp.jpg" alt="Вивіска «Готові страви поруч»" width="1200" height="798" loading="lazy"><b>Готові страви поруч</b><span>домашні страви</span></li>
       </ul>
+      <div class="venues__cta"><p>Хочете, щоб ваш заклад був наступним у цьому списку?</p><a class="btn btn--fill" href="#rozrakhunok">Отримати прорахунок <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="1.6"/></svg></a></div>
       <p class="venues__formats">Стрітфуд · шаурма · бургерні · піцерії · суші · кав'ярні · пекарні · dark kitchen · кафе при ЖК · пивні ресторани</p>
     </div>
     <div class="vpeek" aria-hidden="true"><img alt=""></div>
@@ -207,6 +218,9 @@
         <div class="qa__row" data-reveal><dt>Скільки часу займає відкриття?</dt><dd>Від 1,5 до 3 місяців. Великі проєкти — довше.</dd></div>
         <div class="qa__row" data-reveal><dt>Ви працюєте в моєму місті?</dt><dd>Так, по всій Україні — від Харкова до Кіровоградщини.</dd></div>
         <div class="qa__row" data-reveal><dt>Чим це краще за франшизу?</dt><dd>Заклад повністю ваш: назва, меню, постачальники. Оплата разова, без роялті.</dd></div>
+        <div class="qa__row" data-reveal><dt>Скільки грошей потрібно на сам запуск?</dt><dd>Залежно від площі: до 20 м² — $10–18 тис., 20–40 м² — $15–25 тис., 40–60 м² — $20–40 тис., 60–80 м² — $35–65 тис. Це ремонт, обладнання й запуск, без оплати послуги.</dd></div>
+        <div class="qa__row" data-reveal><dt>Можна зі своїми постачальниками й обладнанням?</dt><dd>Так. Працюємо з вашими, а якщо їх немає — шеф підбере своїх.</dd></div>
+        <div class="qa__row" data-reveal><dt>Що буде після відкриття?</dt><dd>Місяць супроводу: шеф поруч, поки заклад виходить на робочий ритм.</dd></div>
         <div class="qa__row" data-reveal><dt>Мій заклад уже працює, але не тягне.</dt><dd>Можна окремо: аудит, перезапуск, нове меню й техкарти — без повного пакета.</dd></div>
       </dl>
     </div>
@@ -236,7 +250,7 @@
         </div>
         <div class="field">
           <label for="f-phone">Телефон</label>
-          <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+38 (0__) ___-__-__" required aria-describedby="e-phone" maxlength="19">
+          <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+38 (0__) ___-__-__" required aria-describedby="e-phone">
           <small class="field__err" id="e-phone">Введіть номер повністю: +38 (0XX) XXX-XX-XX</small>
         </div>
         <fieldset class="field field--radios">
@@ -251,7 +265,7 @@
         <input type="hidden" name="area" id="f-area" value="">
         <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
         <button class="btn btn--fill form__btn" type="submit">Отримати прорахунок <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="1.6"/></svg></button>
-        <p class="form__note">Відповідь — особисто від шефа.</p>
+        <p class="form__note">Відповідь — особисто від шефа. 20+ відкритих закладів, у&nbsp;HoReCa з&nbsp;2012.</p>
         <p class="form__status" role="status" aria-live="polite"></p>
       </form>
     </div>
