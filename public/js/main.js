@@ -140,11 +140,11 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   const draw = () => {
     mx += (tx - mx) * .08; my += (ty - my) * .08;
     const dist = Math.min(1, Math.hypot(mx, my));
-    lw.style.transform = `translate3d(${-mx * 18}px, ${sp * 22}vh, 0) translate3d(0, ${-my * 10}px, 0)`;
-    lc.style.transform = `translate3d(${mx * 14}px, ${sp * 8}vh, 0) scale(${1 + sp * .06})`;
-    word.style.filter = `blur(${(dist * 3.5).toFixed(2)}px)`;
-    hero.style.setProperty('--mx', (50 + mx * 30) + '%');
-    hero.style.setProperty('--my', (42 + my * 25) + '%');
+    lw.style.transform = `translate3d(${-mx * 8}px, calc(${sp * 22}vh + ${-my * 4}px), 0)`;
+    lc.style.transform = `translate3d(${mx * 6}px, ${sp * 8}vh, 0) scale(${1 + sp * .06})`;
+    word.style.filter = dist > .02 ? `blur(${(dist * .9).toFixed(2)}px)` : '';
+    hero.style.setProperty('--mx', (50 + mx * 18) + '%');
+    hero.style.setProperty('--my', (42 + my * 14) + '%');
     raf = Math.abs(tx - mx) + Math.abs(ty - my) > .001 ? requestAnimationFrame(draw) : 0;
   };
   const kick = () => { if (!raf) raf = requestAnimationFrame(draw); };
