@@ -16,251 +16,155 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#F2EFE8">
+<meta name="theme-color" content="#0E0E0D">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="preload" as="image" href="img/kitchen.jpg">
+<link rel="preload" as="image" href="img/chef-cut.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Pangolin&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;600;800&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <header class="header" id="top">
   <div class="container header__in">
-    <a class="logo" href="#top" aria-label="Техкарта — на початок">
-      <span class="logo__dot" aria-hidden="true">т</span><b>техкарта</b>
-    </a>
+    <a class="logo" href="#top" aria-label="Техкарта — на початок"><span class="logo__dot" aria-hidden="true">т</span><b>техкарта</b></a>
     <nav class="nav" id="nav" aria-label="Основне меню">
-      <a href="#sklad">Склад</a>
-      <a href="#tekhnolohiia">Технологія</a>
+      <a href="#burger">Техкарта</a>
+      <a href="#tekhnolohiia">Як працюємо</a>
       <a href="#vartist">Вартість</a>
       <a href="#zaklady">Заклади</a>
       <a href="#pytannia">Питання</a>
-      <a class="btn btn--cta nav__cta" href="#rozrakhunok">Отримати прорахунок</a>
+      <a class="btn btn--line nav__cta" href="#rozrakhunok">Отримати прорахунок</a>
     </nav>
-    <a class="btn btn--cta btn--sm header__cta" href="#rozrakhunok">Отримати прорахунок</a>
-    <button class="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="Відкрити меню">
-      <span></span><span></span>
-    </button>
+    <a class="btn btn--line btn--sm header__cta" href="#rozrakhunok">Отримати прорахунок</a>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="Відкрити меню"><span></span><span></span></button>
   </div>
 </header>
 
 <main>
 
-  <section class="stage" id="stage" aria-labelledby="hero-title">
-    <div class="stage__sticky">
-      <div class="peel" id="peel">
-        <video class="peel__before" src="video/kitchen.mp4" poster="img/kitchen.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
-        <img class="peel__after" src="img/redcat.jpg" alt="День відкриття Red Cat Pub у Харкові: команда за барною стійкою" width="1100" height="1070">
-        <svg class="peel__svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="filmGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="900" y2="900">
-              <stop offset="0" stop-color="#fff" stop-opacity=".34"/>
-              <stop offset=".12" stop-color="#fff" stop-opacity=".08"/>
-              <stop offset=".22" stop-color="#fff" stop-opacity=".26"/>
-              <stop offset=".36" stop-color="#fff" stop-opacity=".05"/>
-              <stop offset=".5" stop-color="#fff" stop-opacity=".2"/>
-              <stop offset=".64" stop-color="#fff" stop-opacity=".06"/>
-              <stop offset=".8" stop-color="#fff" stop-opacity=".3"/>
-              <stop offset="1" stop-color="#fff" stop-opacity=".1"/>
-            </linearGradient>
-            <linearGradient id="sheenGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="300" y2="300">
-              <stop offset="0" stop-color="#fff" stop-opacity="0"/>
-              <stop offset=".5" stop-color="#fff" stop-opacity=".55"/>
-              <stop offset="1" stop-color="#fff" stop-opacity="0"/>
-            </linearGradient>
-            <linearGradient id="flapGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#C9CDD0" stop-opacity=".78"/>
-              <stop offset=".06" stop-color="#FFFFFF" stop-opacity=".82"/>
-              <stop offset=".3" stop-color="#EEF0F1" stop-opacity=".55"/>
-              <stop offset=".55" stop-color="#FFFFFF" stop-opacity=".68"/>
-              <stop offset="1" stop-color="#E3E6E8" stop-opacity=".5"/>
-            </linearGradient>
-            <filter id="flapShadow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="6" dy="6" stdDeviation="9" flood-color="#000" flood-opacity=".32"/>
-            </filter>
-          </defs>
-          <polygon class="peel__film" fill="url(#filmGrad)"/>
-          <polygon class="peel__sheen" fill="url(#sheenGrad)"/>
-          <polygon class="peel__flap" fill="url(#flapGrad)" filter="url(#flapShadow)"/>
-          <line class="peel__crease" stroke="#fff" stroke-width="2" stroke-opacity=".9"/>
-        </svg>
-      </div>
-      <div class="stage__shade" aria-hidden="true"></div>
+  <!-- ===== HERO ===== -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__light" aria-hidden="true"></div>
+    <p class="hero__word" aria-hidden="true"><span class="hero__thin">тех</span><span class="hero__bold">карта</span></p>
+    <img class="hero__chef" src="img/chef-cut.png" alt="Дмитро, бренд-шеф, у білому кітелі" width="686" height="1150" fetchpriority="high">
+    <canvas class="hero__smoke" aria-hidden="true"></canvas>
+    <div class="hero__shade" aria-hidden="true"></div>
 
-      <div class="container stage__content">
-        <p class="stage__kicker mono" aria-hidden="true"><span class="k k--before">Кухня ще в плівці</span><span class="k k--after">Через 1,5–3 місяці — перший гість</span></p>
-        <h1 class="stage__h1" id="hero-title"><span class="ln"><span>Відкриємо ваш заклад</span></span> <span class="ln"><span class="nobr-lg">за&nbsp;техкартою шефа</span></span></h1>
-        <div class="stage__row">
-          <p class="stage__lead">Від порожнього приміщення до першого гостя. Веде бренд-шеф, який відкрив понад 20&nbsp;закладів по Україні. Ціна&nbsp;— від&nbsp;<span class="nobr">$2&nbsp;800</span>, залежить від площі.</p>
-          <div class="hero__actions">
-            <a class="btn btn--cta" href="#rozrakhunok">Отримати прорахунок
-              <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="2"/></svg></a>
-            <a class="stage__tg" href="https://t.me/Dima_Brss" target="_blank" rel="noopener">або напишіть шефу в&nbsp;Telegram</a>
-          </div>
+    <div class="container hero__ui">
+      <p class="hero__side">Бренд-шеф Дмитро<br>у HoReCa з 2012<br>20+ відкритих закладів</p>
+      <div class="hero__bottom">
+        <div class="hero__left">
+          <h1 class="hero__h1" id="hero-title">Відкриємо ваш заклад за&nbsp;техкартою шефа</h1>
+          <p class="hero__lead">Від порожнього приміщення до першого гостя за&nbsp;1,5–3&nbsp;місяці. Фастфуд, кав'ярні, піцерії, суші — по&nbsp;всій Україні.</p>
+        </div>
+        <div class="hero__right">
+          <a class="btn btn--line" href="#rozrakhunok">Отримати прорахунок <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="1.6"/></svg></a>
+          <a class="hero__tg" href="https://t.me/Dima_Brss" target="_blank" rel="noopener">або напишіть у Telegram</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== МАНІФЕСТ ШЕФА ===== -->
+  <section class="intro" id="shef" aria-labelledby="intro-title">
+    <div class="container">
+      <p class="label">// про шефа</p>
+      <h2 class="intro__text" id="intro-title">Я відкриваю заклади з <em>2012 року</em>. Від шаурми у фуд-корті до пивного ресторану. Понад <em>двадцять</em> — від Харкова до Кіровоградщини.</h2>
+      <div class="intro__row">
+        <p class="intro__quote">«Відкриваю не&nbsp;заради відкриття, а&nbsp;заради репутації. І&nbsp;з&nbsp;душею, бо люблю те, що роблю».</p>
+        <dl class="facts">
+          <div><dt>Освіта</dt><dd>технолог харчової промисловості</dd></div>
+          <div><dt>Практика</dt><dd>Україна і закордон</dd></div>
+          <div><dt>Запуски</dt><dd>бренд-шеф мережі Red Cat Brewery</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ТЕХКАРТА БУРГЕРА ===== -->
+  <section class="burger-tk" id="burger" aria-labelledby="burger-title">
+   <div class="burger-tk__track">
+    <div class="burger-tk__pin">
+      <div class="container burger-tk__head">
+        <p class="label">// техкарта</p>
+        <h2 class="h2" id="burger-title">Кожну страву шеф розкладає до&nbsp;шару. <span class="dim">Ваш заклад — так само.</span></h2>
+      </div>
+      <div class="burger-tk__stage" aria-hidden="true">
+        <div class="bt">
+          <img class="bt__l bt__l--1" src="img/burger-cut.png" alt="" width="645" height="811">
+          <img class="bt__l bt__l--2" src="img/burger-cut.png" alt="" width="645" height="811">
+          <img class="bt__l bt__l--3" src="img/burger-cut.png" alt="" width="645" height="811">
+          <img class="bt__l bt__l--4" src="img/burger-cut.png" alt="" width="645" height="811">
+          <img class="bt__l bt__l--5" src="img/burger-cut.png" alt="" width="645" height="811">
+          <span class="bt__tag bt__tag--1">чорна булка з кунжутом</span>
+          <span class="bt__tag bt__tag--2">соус і салат</span>
+          <span class="bt__tag bt__tag--3">бекон і томат</span>
+          <span class="bt__tag bt__tag--4">котлета і сир</span>
+          <span class="bt__tag bt__tag--5">нижня булка</span>
         </div>
       </div>
 
-      <div class="container stage__foot" aria-hidden="true">
-        <div class="peel__bar"><span>старт</span><i><b></b></i><span>відкриття</span></div>
-        <p class="hero__hint mono">Гортайте — знімаємо плівку <span>↓</span></p>
-      </div>
     </div>
-  </section>
-
-  <div class="marq" aria-hidden="true"><div class="marq__in">
-    <span>шаурма</span><span>кав'ярня</span><span>піцерія</span><span>суші</span><span>бургерна</span><span>dark kitchen</span><span>пекарня</span><span>стрітфуд</span><span>кафе при ЖК</span><span>пивний ресторан</span><span>чебуречна</span><span>кондитерська</span>
-    <span>шаурма</span><span>кав'ярня</span><span>піцерія</span><span>суші</span><span>бургерна</span><span>dark kitchen</span><span>пекарня</span><span>стрітфуд</span><span>кафе при ЖК</span><span>пивний ресторан</span><span>чебуречна</span><span>кондитерська</span>
-  </div></div>
-  <p class="sr-only">Відкриваємо формати: шаурма, кав'ярня, піцерія, суші, бургерна, dark kitchen, пекарня, стрітфуд, кафе при ЖК, пивний ресторан, чебуречна, кондитерська — по всій Україні.</p>
-
-
-  <section class="sit" id="sytuatsii" aria-labelledby="sit-title">
-    <div class="container">
-      <h2 class="h2" id="sit-title">З&nbsp;чим до шефа приходять</h2>
-      <ul class="sit__list" role="list">
-        <li class="sit__card" data-reveal>
-          <span class="tape sit__tag">є ідея і бюджет</span>
-          <h3 class="sit__title">Хочу свою кав'ярню, шаурму чи піцерію, але не знаю, з чого почати</h3>
-          <p>Шеф проведе весь шлях: бізнес-план, пошук приміщення, кухня, меню, команда — і&nbsp;перший гість.</p>
-          <a class="sit__link" href="#rozrakhunok" data-situation="Є ідея і бюджет">Прорахувати мій заклад <span aria-hidden="true">→</span></a>
-        </li>
-        <li class="sit__card" data-reveal>
-          <span class="tape sit__tag">є приміщення</span>
-          <h3 class="sit__title">Маю приміщення в ЖК, ТРЦ чи на вулиці й хочу, щоб там працював заклад</h3>
-          <p>Шеф проаналізує локацію й аудиторію, прорахує формат і&nbsp;відкриє заклад саме під це місце.</p>
-          <a class="sit__link" href="#rozrakhunok" data-situation="Є приміщення">Прорахувати моє приміщення <span aria-hidden="true">→</span></a>
-        </li>
-        <li class="sit__card sit__card--dark" data-reveal>
-          <span class="tape sit__tag">заклад не тягне</span>
-          <h3 class="sit__title">Заклад уже працює, але не приносить того, що мав би</h3>
-          <p>Перезапуск, ребрендинг, нове меню чи аудит кухні — можна окремо, без повного пакета.</p>
-          <a class="sit__link" href="#rozrakhunok" data-situation="Заклад працює, треба перезапуск">Розібрати мій заклад <span aria-hidden="true">→</span></a>
-        </li>
+   </div>
+    <ul class="burger-tk__list container" aria-label="Що входить у відкриття під ключ">
+        <li><b>Розрахунок</b>бізнес-план, аналіз локації та аудиторії</li>
+        <li><b>Місце</b>підбір приміщення, дизайн, контроль підрядників</li>
+        <li><b>Кухня</b>обладнання, постачальники, меню, техкарти</li>
+        <li><b>Бренд</b>концепція і назва, упаковка, уніформа</li>
+        <li><b>Команда</b>підбір і навчання персоналу</li>
+        <li><b>Запуск</b>документи, каса, просування, відкриття</li>
       </ul>
-    </div>
   </section>
 
-  <section class="chef" id="shef" aria-labelledby="chef-title">
-    <div class="container">
-      <div class="chef__grid">
-        <figure class="chef__photo">
-          <img src="img/chef.jpg" alt="Дмитро, бренд-шеф, у білому кітелі з вишитим іменем" width="666" height="1000" loading="lazy">
-          <span class="tape t1"><small>шеф</small>Дмитро</span>
-          <span class="tape t2"><small>у HoReCa</small>з 2012 року</span>
-        </figure>
-        <div class="chef__text">
-          <h2 class="h2" id="chef-title">Техкарту складаю я&nbsp;— бренд-шеф, а&nbsp;не&nbsp;менеджер агенції</h2>
-          <p class="chef__lead">Я в&nbsp;HoReCa з&nbsp;2012 року. За дипломом — технолог харчової промисловості, маю закордонну практику. Відкривав і&nbsp;перезапускав понад 20&nbsp;закладів по Україні: від фуд-кортів до пивного ресторану.</p>
-          <blockquote class="quote">
-            <p>Відкриваю не&nbsp;заради відкриття, а&nbsp;заради репутації. І&nbsp;з&nbsp;душею, бо люблю те, що роблю.</p>
-            <footer class="mono">Дмитро, бренд-шеф</footer>
-          </blockquote>
-          <dl class="facts">
-            <div class="facts__row"><dt class="mono">Закладів</dt><dd>20+ відкрито й перезапущено</dd></div>
-            <div class="facts__row"><dt class="mono">Географія</dt><dd>від Харкова до Кіровоградщини</dd></div>
-            <div class="facts__row"><dt class="mono">Освіта</dt><dd>технолог харчової промисловості</dd></div>
-            <div class="facts__row"><dt class="mono">Запуски</dt><dd>бренд-шеф мережі Red Cat Brewery</dd></div>
-          </dl>
-        </div>
-      </div>
-
-      <div class="dishes">
-        <ul class="dishes__list" aria-label="Страви шефа">
-          <li><img src="img/dish-mussels.jpg" alt="Мідії, подані з сухим льодом" width="480" height="720" loading="lazy"></li>
-          <li><img src="img/dish-duck.jpg" alt="Качина ніжка з грушею та журавлиною" width="581" height="720" loading="lazy"></li>
-          <li><img src="img/dish-coconut.jpg" alt="Тартар у половинці кокоса" width="480" height="720" loading="lazy"></li>
-          <li><img src="img/dish-burger.jpg" alt="Бургер на чорній булці з беконом" width="567" height="720" loading="lazy"></li>
-        </ul>
-        <p class="dishes__caption">Так готує шеф, який складатиме меню для вашого закладу.</p>
-      </div>
-    </div>
-  </section>
-
-
-  <section class="sklad" id="sklad" aria-labelledby="sklad-title">
-    <div class="container">
-      <div class="sklad__head">
-        <h2 class="h2" id="sklad-title">Усе для відкриття — в&nbsp;одній техкарті</h2>
-        <p class="sklad__lead">Ви не шукаєте окремо дизайнера, постачальників, кухаря й касову систему. Усе це шеф бере на себе, а&nbsp;вам лишаються рішення.</p>
-      </div>
-      <ul class="gn" role="list">
-        <li class="gn__box" data-reveal><span class="tape gn__tag">розрахунок</span><ul><li>бізнес-план</li><li>аналіз локації та аудиторії</li></ul></li>
-        <li class="gn__box" data-reveal><span class="tape gn__tag">місце</span><ul><li>підбір приміщення</li><li>дизайн і контроль підрядників</li><li>оформлення</li></ul></li>
-        <li class="gn__box gn__box--hot" data-reveal><span class="tape gn__tag">кухня</span><ul><li>обладнання</li><li>постачальники</li><li>меню</li><li>техкарти</li></ul></li>
-        <li class="gn__box" data-reveal><span class="tape gn__tag">бренд</span><ul><li>концепція і назва</li><li>упаковка</li><li>уніформа</li></ul></li>
-        <li class="gn__box" data-reveal><span class="tape gn__tag">команда</span><ul><li>підбір персоналу</li><li>навчання персоналу</li></ul></li>
-        <li class="gn__box" data-reveal><span class="tape gn__tag">запуск</span><ul><li>документи</li><li>каса й автоматизація</li><li>просування до відкриття</li><li>відкриття</li></ul></li>
-      </ul>
-      <p class="sklad__note"><b>18 позицій</b> в одних руках. Обладнання й постачальників підберемо самі або працюємо з вашими.</p>
-    </div>
-  </section>
-
+  <!-- ===== ЯК ПРАЦЮЄМО ===== -->
   <section class="tech" id="tekhnolohiia" aria-labelledby="tech-title">
     <div class="tech__pin">
       <div class="container tech__head">
-        <h2 class="h2" id="tech-title">Від першої розмови до першого гостя</h2>
+        <p class="label">// як працюємо</p>
+        <h2 class="h2" id="tech-title">Від першої розмови до&nbsp;першого гостя</h2>
         <div class="tech__ruler" aria-hidden="true"><span>старт</span><i><b></b></i><span>1,5–3 місяці</span><span class="tech__plus">+1 місяць</span></div>
       </div>
       <div class="tech__viewport">
         <ol class="tech__track">
-          <li class="step step--text">
-            <p class="step__when mono">старт</p>
-            <h3 class="step__title">Зустріч і консультація</h3>
-            <p>Розбираємо ідею, формат, бюджет і місце.</p>
-          </li>
-          <li class="step step--text step--led">
-            <p class="step__when mono">до договору</p>
-            <div class="step__led" aria-hidden="true"><span>$</span><b>2 800</b></div>
-            <h3 class="step__title">Первинний прорахунок</h3>
-            <p>Ви бачите цифри ще до&nbsp;договору.</p>
-          </li>
-          <li class="step step--text">
-            <p class="step__when mono">договір</p>
-            <h3 class="step__title">Договір</h3>
-            <p>Після прорахунку підписуємо договір і&nbsp;стартуємо.</p>
-          </li>
-          <li class="step step--photo">
-            <img src="img/kitchen.jpg" alt="Нова кухня з обладнанням перед відкриттям" width="738" height="900" loading="lazy">
-            <div class="step__cap"><p class="step__when mono">запуск</p><h3 class="step__title">Приміщення і кухня</h3><p>Ремонт, обладнання, постачальники. Шеф контролює підрядників, щоб кухня працювала так, як розписано в&nbsp;техкарті.</p></div>
-          </li>
-          <li class="step step--photo">
-            <img src="img/dish-pasta.jpg" alt="Паста з креветками й песто на темній тарілці" width="615" height="820" loading="lazy">
-            <div class="step__cap"><p class="step__when mono">до відкриття</p><h3 class="step__title">Меню, техкарти, команда</h3><p>Страви відпрацьовані, персонал навчений до&nbsp;відкриття.</p></div>
-          </li>
-          <li class="step step--photo">
-            <img src="img/greystone.jpg" alt="Вечірній фасад ресторану Grey Stone з підсвіткою" width="656" height="820" loading="lazy">
-            <div class="step__cap"><p class="step__when mono">1,5–3 місяці</p><h3 class="step__title">Відкриття</h3><p>Заклад приймає перших гостей.</p></div>
-          </li>
-          <li class="step step--photo">
-            <img src="img/kitchen-work.jpg" alt="Робоча кухня закладу під час зміни" width="615" height="820" loading="lazy">
-            <div class="step__cap"><p class="step__when mono">+1 місяць</p><h3 class="step__title">Місяць супроводу</h3><p>Шеф поруч, поки заклад виходить на робочий ритм.</p></div>
-          </li>
+          <li class="step step--text"><p class="step__when">старт</p><h3 class="step__title">Зустріч і&nbsp;консультація</h3><p>Розбираємо ідею, формат, бюджет і місце.</p></li>
+          <li class="step step--text step--led"><p class="step__when">до договору</p><div class="step__led" aria-hidden="true">$2&nbsp;800</div><h3 class="step__title">Первинний прорахунок</h3><p>Ви бачите цифри ще до&nbsp;договору.</p></li>
+          <li class="step step--text"><p class="step__when">договір</p><h3 class="step__title">Договір</h3><p>Після прорахунку підписуємо договір і&nbsp;стартуємо.</p></li>
+          <li class="step step--photo"><img src="img/kitchen.jpg" alt="Нова кухня з обладнанням перед відкриттям" width="738" height="900" loading="lazy"><div class="step__cap"><p class="step__when">запуск</p><h3 class="step__title">Приміщення і&nbsp;кухня</h3><p>Ремонт, обладнання, постачальники. Шеф контролює підрядників.</p></div></li>
+          <li class="step step--photo"><img src="img/dish-pasta.jpg" alt="Паста з креветками й песто" width="615" height="820" loading="lazy"><div class="step__cap"><p class="step__when">до відкриття</p><h3 class="step__title">Меню, техкарти, команда</h3><p>Страви відпрацьовані, персонал навчений.</p></div></li>
+          <li class="step step--photo"><img src="img/redcat.jpg" alt="Відкриття Red Cat Pub: команда за баром" width="1100" height="1070" loading="lazy"><div class="step__cap"><p class="step__when">1,5–3 місяці</p><h3 class="step__title">Відкриття</h3><p>Заклад приймає перших гостей.</p></div></li>
+          <li class="step step--photo"><img src="img/kitchen-work.jpg" alt="Робоча кухня під час зміни" width="615" height="820" loading="lazy"><div class="step__cap"><p class="step__when">+1 місяць</p><h3 class="step__title">Місяць супроводу</h3><p>Шеф поруч, поки заклад виходить на робочий ритм.</p></div></li>
         </ol>
       </div>
     </div>
   </section>
 
+  <!-- ===== КАДР-ПАУЗА ===== -->
+  <section class="frame" aria-label="Страва шефа">
+    <img class="frame__img" src="img/dish-mussels.jpg" alt="Мідії, подані з сухим льодом — дим стікає з тарілки" width="480" height="720" loading="lazy">
+    <div class="container frame__ui">
+      <p class="frame__text">Гість не бачить техкарту.<br>Він бачить тарілку — і&nbsp;повертається.</p>
+    </div>
+  </section>
 
+  <!-- ===== ВАРТІСТЬ ===== -->
   <section class="cost" id="vartist" aria-labelledby="cost-title">
     <div class="container cost__grid">
       <div class="cost__text">
+        <p class="label">// вартість</p>
         <h2 class="h2" id="cost-title">Скільки коштує відкрити заклад</h2>
-        <p class="cost__lead">Оберіть площу — ваги покажуть попередні цифри.</p>
+        <p class="cost__lead">Ціна фіксована й залежить від площі. Оберіть свою — ваги покажуть цифри.</p>
         <div class="chips" role="radiogroup" aria-label="Площа закладу">
           <button class="chip" role="radio" aria-checked="false" data-area="до 20 м²" data-s="2800" data-i="10000-18000">до 20 м²</button>
           <button class="chip" role="radio" aria-checked="true" data-area="20–40 м²" data-s="3300" data-i="15000-25000">20–40 м²</button>
           <button class="chip" role="radio" aria-checked="false" data-area="40–60 м²" data-s="3600" data-i="20000-40000">40–60 м²</button>
           <button class="chip" role="radio" aria-checked="false" data-area="60–80 м²" data-s="4800" data-i="35000-65000">60–80 м²</button>
         </div>
-        <p class="cost__note">Цифри попередні. Точний прорахунок робимо після консультації: він залежить від формату, міста й стану приміщення. Інвестиції — це ремонт, обладнання й запуск, без оплати послуги.</p>
-        <p class="cost__payback">Окупність рахуємо в&nbsp;бізнес-плані під ваш формат і&nbsp;місто.</p>
-        <a class="btn btn--ghost cost__cta" href="#rozrakhunok" data-pick-area>Отримати точний прорахунок
-          <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="2"/></svg></a>
+        <p class="cost__note">Цифри попередні: точний прорахунок — після консультації. Інвестиції — це ремонт, обладнання й запуск, без оплати послуги. Окупність рахуємо в&nbsp;бізнес-плані під ваш формат і&nbsp;місто.</p>
+        <a class="btn btn--line cost__cta" href="#rozrakhunok" data-pick-area>Отримати точний прорахунок <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="1.6"/></svg></a>
       </div>
-
       <div class="scale" aria-live="polite">
         <div class="scale__plate" aria-hidden="true"></div>
         <div class="scale__body">
@@ -275,129 +179,93 @@
     </div>
   </section>
 
+  <!-- ===== ЗАКЛАДИ ===== -->
   <section class="venues" id="zaklady" aria-labelledby="venues-title">
     <div class="container">
       <div class="venues__top">
         <p class="venues__num" aria-hidden="true">20+</p>
         <div class="venues__intro">
-          <h2 class="h2" id="venues-title">Відгуки шефа — це заклади, які працюють</h2>
-          <p>Понад 20 закладів по Україні. Тут ті, які можна відвідати й перевірити самому.</p>
+          <p class="label">// заклади</p>
+          <h2 class="h2" id="venues-title">Замість відгуків — заклади, які працюють</h2>
+          <p class="venues__sub">Тут ті, куди можна прийти й перевірити самому.</p>
         </div>
       </div>
-
+      <div class="venues__grid">
+        <figure class="vcard vcard--tall" data-reveal><img src="img/greystone.jpg" alt="Вечірній фасад ресторану Grey Stone" width="656" height="820" loading="lazy"><figcaption><b>Grey Stone</b><span>ресторан · Софіївська Борщагівка</span></figcaption></figure>
+        <figure class="vcard" data-reveal><img src="img/eatit.jpg" alt="Фасад закладу Eat it з літньою терасою" width="1000" height="760" loading="lazy"><figcaption><b>Eat it</b><span>молодіжний формат · заклад при ЖК</span></figcaption></figure>
+        <figure class="vcard" data-reveal><img src="img/gsp.jpg" alt="Вивіска «Готові страви поруч»" width="1000" height="665" loading="lazy"><figcaption><b>Готові страви поруч</b><span>корисні домашні страви</span></figcaption></figure>
+      </div>
       <ul class="vlist" role="list">
-        <li class="vlist__row" data-reveal><b>Red Cat Pub</b><span>ТРЦ «Французький бульвар», Харків</span><span class="tape vlist__tag">пивний паб</span></li>
-        <li class="vlist__row" data-reveal><b>Red Cat Pub</b><span>вул. Сумська, Харків</span><span class="tape vlist__tag">пивний паб</span></li>
-        <li class="vlist__row" data-reveal><b>Red Cat Pub</b><span>ХТЗ, Харків</span><span class="tape vlist__tag">пивний паб</span></li>
-        <li class="vlist__row" data-reveal><b>Grey Stone</b><span>Софіївська Борщагівка</span><span class="tape vlist__tag">ресторан</span></li>
-        <li class="vlist__row" data-reveal><b>Eat it</b><span>заклад при ЖК</span><span class="tape vlist__tag">молодіжний формат</span></li>
-        <li class="vlist__row" data-reveal><b>Готові страви поруч</b><span>корисні домашні страви</span><span class="tape vlist__tag">готова їжа</span></li>
+        <li><b>Red Cat Pub</b><span>ТРЦ «Французький бульвар», Харків</span></li>
+        <li><b>Red Cat Pub</b><span>вул. Сумська, Харків</span></li>
+        <li><b>Red Cat Pub</b><span>ХТЗ, Харків</span></li>
       </ul>
-
-      <div class="venues__photos">
-        <figure data-reveal><img src="img/eatit.jpg" alt="Фасад закладу Eat it з літньою терасою" width="1000" height="760" loading="lazy"><figcaption class="mono">Eat it</figcaption></figure>
-        <figure data-reveal><img src="img/gsp.jpg" alt="Вивіска «Готові страви поруч» на фасаді" width="1000" height="665" loading="lazy"><figcaption class="mono">Готові страви поруч</figcaption></figure>
-      </div>
-
-      <p class="venues__did"><b>Що робили:</b> планування, проєкт, ремонт, підбір обладнання, навчання персоналу.</p>
+      <p class="venues__formats">Стрітфуд · шаурма · бургерні · піцерії · суші · кав'ярні · пекарні · кондитерські · dark kitchen · кафе при ЖК · пивні ресторани</p>
     </div>
   </section>
 
-  <section class="vs" aria-labelledby="vs-title">
-    <div class="container">
-      <h2 class="h2" id="vs-title">Франшиза чи заклад за&nbsp;власною техкартою</h2>
-      <div class="vs__table" role="table" aria-label="Порівняння франшизи і Техкарти">
-        <div class="vs__row vs__row--head" role="row"><span role="columnheader"></span><span role="columnheader">Франшиза</span><span role="columnheader">Техкарта</span></div>
-        <div class="vs__row" role="row"><span role="rowheader">Бренд</span><span role="cell">чужий, за правилами мережі</span><span role="cell">ваш: назва, концепція, меню</span></div>
-        <div class="vs__row" role="row"><span role="rowheader">Платежі</span><span role="cell">зазвичай вступний внесок і роялті щомісяця</span><span role="cell">разова оплата послуги, залежно від площі</span></div>
-        <div class="vs__row" role="row"><span role="rowheader">Меню й постачальники</span><span role="cell">затверджені мережею</span><span role="cell">під ваше місце й аудиторію; постачальники наші або ваші</span></div>
-        <div class="vs__row" role="row"><span role="rowheader">Після відкриття</span><span role="cell">живете за правилами мережі</span><span role="cell">місяць супроводу, далі заклад повністю ваш</span></div>
-      </div>
-
-      <div class="extra">
-        <div class="extra__text">
-          <h3 class="h3">Заклад уже працює, але не&nbsp;тягне?</h3>
-          <p>Шеф розбере кухню, меню й процеси і скаже, що змінити. Можна замовити окремо:</p>
-        </div>
-        <ul class="extra__list" role="list">
-          <li><span>Меню і техкарти</span><span class="extra__price mono">ціна після розмови</span></li>
-          <li><span>Аудит закладу</span><span class="extra__price mono">ціна після розмови</span></li>
-          <li><span>Перезапуск і ребрендинг</span><span class="extra__price mono">ціна після розмови</span></li>
-          <li><span>Оновлення меню кухні</span><span class="extra__price mono">ціна після розмови</span></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-
-
+  <!-- ===== ПИТАННЯ ===== -->
   <section class="faq" id="pytannia" aria-labelledby="faq-title">
     <div class="container faq__grid">
       <div class="faq__head">
+        <p class="label">// питання</p>
         <h2 class="h2" id="faq-title">Що питають у&nbsp;шефа перед стартом</h2>
-        <p>Коротко — так, як відповідає Дмитро в&nbsp;Telegram.</p>
-        <a class="btn btn--ghost faq__cta" href="https://t.me/Dima_Brss" target="_blank" rel="noopener">Поставити своє питання</a>
+        <a class="btn btn--line faq__cta" href="https://t.me/Dima_Brss" target="_blank" rel="noopener">Поставити своє питання</a>
       </div>
       <div class="chat" role="list" aria-label="Питання й відповіді">
-        <div class="chat__day mono" aria-hidden="true">сьогодні</div>
         <p class="msg msg--in" role="listitem" data-reveal>Скільки часу займає відкриття?</p>
         <p class="msg msg--out" role="listitem" data-reveal><img src="img/chef-sm.jpg" alt="" width="160" height="240">Від 1,5 до 3 місяців. Великі проєкти — довше.</p>
         <p class="msg msg--in" role="listitem" data-reveal>Я не з Києва й не з Харкова. Ви працюєте в моєму місті?</p>
-        <p class="msg msg--out" role="listitem" data-reveal><img src="img/chef-sm.jpg" alt="" width="160" height="240">Так, по всій Україні. Відкривав заклади від Харкова до Кіровоградщини.</p>
-        <p class="msg msg--in" role="listitem" data-reveal>У мене вже є свої постачальники й частина обладнання.</p>
+        <p class="msg msg--out" role="listitem" data-reveal><img src="img/chef-sm.jpg" alt="" width="160" height="240">Так, по всій Україні.</p>
+        <p class="msg msg--in" role="listitem" data-reveal>У мене вже є свої постачальники.</p>
         <p class="msg msg--out" role="listitem" data-reveal><img src="img/chef-sm.jpg" alt="" width="160" height="240">Працюємо з вашими. Якщо немає — підберу своїх.</p>
-        <p class="msg msg--in" role="listitem" data-reveal>З чого почати й коли платити?</p>
-        <p class="msg msg--out" role="listitem" data-reveal><img src="img/chef-sm.jpg" alt="" width="160" height="240">Зустріч і консультація, потім первинний прорахунок. Договір — тільки після того, як побачите цифри.</p>
-        <p class="msg msg--in" role="listitem" data-reveal>А що після відкриття? Ви зникаєте?</p>
+        <p class="msg msg--in" role="listitem" data-reveal>Чим це краще за франшизу?</p>
+        <p class="msg msg--out" role="listitem" data-reveal><img src="img/chef-sm.jpg" alt="" width="160" height="240">Заклад повністю ваш: назва, меню, постачальники. Оплата разова, без роялті.</p>
+        <p class="msg msg--in" role="listitem" data-reveal>А після відкриття ви зникаєте?</p>
         <p class="msg msg--out" role="listitem" data-reveal><img src="img/chef-sm.jpg" alt="" width="160" height="240">Ні. Місяць супроводу: я поруч, поки заклад виходить на робочий ритм.</p>
-        <p class="msg msg--in" role="listitem" data-reveal>Можна замовити тільки меню або аудит?</p>
-        <p class="msg msg--out" role="listitem" data-reveal><img src="img/chef-sm.jpg" alt="" width="160" height="240">Так: меню й техкарти, аудит, перезапуск чи оновлення меню — окремо, без повного пакета.</p>
+        <p class="msg msg--in" role="listitem" data-reveal>Мій заклад уже працює, але не тягне.</p>
+        <p class="msg msg--out" role="listitem" data-reveal><img src="img/chef-sm.jpg" alt="" width="160" height="240">Можна окремо: аудит, перезапуск, нове меню й техкарти — без повного пакета.</p>
       </div>
     </div>
   </section>
 
+  <!-- ===== ФОРМА ===== -->
   <section class="lead" id="rozrakhunok" aria-labelledby="lead-title">
     <div class="container lead__grid">
       <div class="lead__text">
+        <p class="label">// прорахунок</p>
         <h2 class="h2" id="lead-title">Розкажіть про заклад, і&nbsp;шеф порахує, скільки він коштуватиме</h2>
-        <p class="lead__sub">Шеф відповість особисто в&nbsp;Telegram.</p>
-        <p class="lead__alt">Або напишіть одразу: <a href="https://t.me/Dima_Brss" target="_blank" rel="noopener">@Dima_Brss</a></p>
+        <p class="lead__sub">Відповідь — особисто в&nbsp;Telegram. Або напишіть одразу: <a href="https://t.me/Dima_Brss" target="_blank" rel="noopener">@Dima_Brss</a></p>
       </div>
-
       <form class="form" id="leadForm" novalidate>
-        <span class="tape form__tag" aria-hidden="true">заявка на прорахунок</span>
+        <div class="field">
+          <label for="f-sit">Ваша ситуація</label>
+          <select id="f-sit" name="situation"><option>Є ідея і бюджет</option><option>Є приміщення</option><option>Заклад працює, треба перезапуск</option></select>
+        </div>
         <div class="form__row">
           <div class="field">
-            <label for="f-format">Формат закладу</label>
-            <select id="f-format" name="format">
-              <option>Кав'ярня</option><option>Шаурма</option><option>Піцерія</option><option>Суші</option><option>Бургерна</option><option>Пекарня</option><option>Кафе</option><option>Інше</option>
-            </select>
+            <label for="f-format">Формат</label>
+            <select id="f-format" name="format"><option>Кав'ярня</option><option>Шаурма</option><option>Піцерія</option><option>Суші</option><option>Бургерна</option><option>Пекарня</option><option>Кафе</option><option>Інше</option></select>
           </div>
           <div class="field">
             <label for="f-area">Площа</label>
-            <select id="f-area" name="area">
-              <option>до 20 м²</option><option selected>20–40 м²</option><option>40–60 м²</option><option>60–80 м²</option><option>більше 80 м²</option>
-            </select>
+            <select id="f-area" name="area"><option>до 20 м²</option><option selected>20–40 м²</option><option>40–60 м²</option><option>60–80 м²</option><option>більше 80 м²</option></select>
           </div>
         </div>
-        <div class="field">
-          <label for="f-sit">Ваша ситуація</label>
-          <select id="f-sit" name="situation">
-            <option>Є ідея і бюджет</option><option>Є приміщення</option><option>Заклад працює, треба перезапуск</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="f-city">Місто</label>
-          <input id="f-city" name="city" autocomplete="address-level2" placeholder="Наприклад, Рівне">
-        </div>
-        <fieldset class="field field--radios">
-          <legend>Приміщення вже є?</legend>
-          <div class="radios">
-            <label><input type="radio" name="place" value="Так" checked><span>так</span></label>
-            <label><input type="radio" name="place" value="Шукаю"><span>ні, шукаю</span></label>
-            <label><input type="radio" name="place" value="Ще не думав"><span>ще не думав</span></label>
+        <div class="form__row">
+          <div class="field">
+            <label for="f-city">Місто</label>
+            <input id="f-city" name="city" autocomplete="address-level2" placeholder="Наприклад, Рівне">
           </div>
-        </fieldset>
+          <fieldset class="field field--radios">
+            <legend>Приміщення є?</legend>
+            <div class="radios">
+              <label><input type="radio" name="place" value="Так" checked><span>так</span></label>
+              <label><input type="radio" name="place" value="Шукаю"><span>шукаю</span></label>
+              <label><input type="radio" name="place" value="Ще не думав"><span>ще ні</span></label>
+            </div>
+          </fieldset>
+        </div>
         <div class="form__row">
           <div class="field">
             <label for="f-name">Ім'я</label>
@@ -407,12 +275,11 @@
           <div class="field">
             <label for="f-contact">Telegram або телефон</label>
             <input id="f-contact" name="contact" autocomplete="tel" placeholder="@нік або +380…" required aria-describedby="e-contact">
-            <small class="field__err" id="e-contact">Залиште @нік або номер, щоб шеф міг відповісти</small>
+            <small class="field__err" id="e-contact">Залиште @нік або номер</small>
           </div>
         </div>
         <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button class="btn btn--cta form__btn" type="submit">Отримати прорахунок
-          <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="2"/></svg></button>
+        <button class="btn btn--fill form__btn" type="submit">Отримати прорахунок <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="1.6"/></svg></button>
         <p class="form__status" role="status" aria-live="polite"></p>
       </form>
     </div>
@@ -421,19 +288,16 @@
 </main>
 
 <footer class="footer">
+  <p class="footer__word" aria-hidden="true"><span class="hero__thin">тех</span><span class="hero__bold">карта</span></p>
   <div class="container footer__in">
-    <a class="logo logo--inv" href="#top" aria-label="Техкарта — на початок"><span class="logo__dot" aria-hidden="true">т</span><b>техкарта</b></a>
     <p class="footer__desc">Відкриття закладів під ключ по всій Україні</p>
-    <nav class="footer__nav" aria-label="Навігація у футері">
-      <a href="#sklad">Склад</a><a href="#tekhnolohiia">Технологія</a><a href="#vartist">Вартість</a><a href="#zaklady">Заклади</a>
-    </nav>
     <a class="footer__tg" href="https://t.me/Dima_Brss" target="_blank" rel="noopener">Telegram: @Dima_Brss</a>
     <p class="footer__copy">© 2026 Техкарта</p>
   </div>
 </footer>
 
 <div class="sticky-cta" aria-hidden="true">
-  <a class="btn btn--cta" href="#rozrakhunok" tabindex="-1">Отримати прорахунок</a>
+  <a class="btn btn--fill" href="#rozrakhunok" tabindex="-1">Отримати прорахунок</a>
   <a class="sticky-cta__tg" href="https://t.me/Dima_Brss" target="_blank" rel="noopener" tabindex="-1" aria-label="Написати шефу в Telegram">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.5 2.8 10.7c-.9.4-.9 1.6.1 1.9l4.6 1.4 1.8 5.6c.2.8 1.2 1 1.8.4l2.6-2.5 4.8 3.5c.7.5 1.6.1 1.8-.7l3-15.1c.2-1-.8-1.8-1.8-1.3ZM9.4 13.6l8.4-6.3-6.9 7.4-.3 3-1.2-4.1Z" fill="currentColor"/></svg>
   </a>

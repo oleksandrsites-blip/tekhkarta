@@ -1,177 +1,180 @@
-// Меню
-const burger = document.querySelector('.burger');
-const nav = document.getElementById('nav');
-const setMenu = open => {
-  burger.setAttribute('aria-expanded', open);
-  burger.setAttribute('aria-label', open ? 'Закрити меню' : 'Відкрити меню');
-  nav.classList.toggle('is-open', open);
-};
-burger.addEventListener('click', () => setMenu(burger.getAttribute('aria-expanded') !== 'true'));
-nav.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp01 = v => Math.min(1, Math.max(0, v));
 
-// Лінія під хедером після скролу
-const header = document.querySelector('.header');
-const onScroll = () => header.classList.toggle('is-scrolled', scrollY > 8);
-addEventListener('scroll', onScroll, { passive: true });
-onScroll();
+// ===== Меню =====
+(() => {
+  const burger = document.querySelector('.burger');
+  const nav = document.getElementById('nav');
+  const set = open => {
+    burger.setAttribute('aria-expanded', open);
+    burger.setAttribute('aria-label', open ? 'Закрити меню' : 'Відкрити меню');
+    nav.classList.toggle('is-open', open);
+  };
+  burger.addEventListener('click', () => set(burger.getAttribute('aria-expanded') !== 'true'));
+  nav.addEventListener('click', e => { if (e.target.closest('a')) set(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') set(false); });
+})();
 
-// Sticky CTA на мобілці — після того, як hero-кнопки зникли з екрана
-const sticky = document.querySelector('.sticky-cta');
-const heroActions = document.querySelector('.hero__actions');
-if (sticky && heroActions && 'IntersectionObserver' in window) {
+// ===== Хедер: фон після скролу =====
+(() => {
+  const h = document.querySelector('.header');
+  const f = () => h.classList.toggle('is-scrolled', scrollY > 24);
+  addEventListener('scroll', f, { passive: true }); f();
+})();
+
+// ===== Sticky CTA на мобілці =====
+(() => {
+  const sticky = document.querySelector('.sticky-cta');
+  const anchor = document.querySelector('.hero__right');
+  if (!sticky || !anchor || !('IntersectionObserver' in window)) return;
   new IntersectionObserver(([e]) => {
     const show = !e.isIntersecting && e.boundingClientRect.top < 0;
     sticky.classList.toggle('is-visible', show);
     sticky.setAttribute('aria-hidden', !show);
     sticky.querySelectorAll('a').forEach(a => a.tabIndex = show ? 0 : -1);
-  }).observe(heroActions);
-}
-
-// ===== Hero: знімаємо плівку зі скролом =====
-(() => {
-  const stage = document.getElementById('stage');
-  const peel = document.getElementById('peel');
-  if (!stage || !peel) return;
-  const svg = peel.querySelector('.peel__svg');
-  const film = peel.querySelector('.peel__film');
-  const sheen = peel.querySelector('.peel__sheen');
-  const flap = peel.querySelector('.peel__flap');
-  const after = peel.querySelector('.peel__after');
-  const before = peel.querySelector('.peel__before');
-  const flapGrad = document.getElementById('flapGrad');
-  const crease = peel.querySelector('.peel__crease');
-  const filmGrad = document.getElementById('filmGrad');
-  const hint = document.querySelector('.hero__hint');
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-  let W = 0, H = 0, target = 0, cur = 0, raf = 0, teaser = 0;
-
-  // Частина прямокутника по один бік лінії x + y = c
-  const clip = (c, keepBig) => {
-    const pts = [[0, 0], [W, 0], [W, H], [0, H]], out = [];
-    const f = p => (p[0] + p[1] - c) * (keepBig ? 1 : -1);
-    for (let i = 0; i < 4; i++) {
-      const a = pts[i], b = pts[(i + 1) % 4], fa = f(a), fb = f(b);
-      if (fa >= 0) out.push(a);
-      if ((fa >= 0) !== (fb >= 0)) {
-        const t = fa / (fa - fb);
-        out.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]);
-      }
-    }
-    return out;
-  };
-  const str = pts => pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
-
-  const draw = p => {
-    // p: 0 — плівка ціла, 1 — знята повністю (+ запас, щоб клапан пішов за край)
-    const c = (W + H) * (1 - p * 1.12);
-    const open = clip(c, true);
-    const rest = clip(c, false);
-    film.setAttribute('points', str(rest));
-    sheen.setAttribute('points', str(rest));
-    after.style.clipPath = open.length ? 'polygon(' + open.map(q => q[0] + 'px ' + q[1] + 'px').join(',') + ')' : 'polygon(0 0,0 0,0 0)';
-    // клапан = відкрита частина, віддзеркалена відносно лінії згину
-    const fl = open.map(([x, y]) => [c - y, c - x]);
-    flap.setAttribute('points', str(fl));
-    const onFold = open.filter(([x, y]) => Math.abs(x + y - c) < .5);
-    if (onFold.length === 2) {
-      crease.setAttribute('x1', onFold[0][0]); crease.setAttribute('y1', onFold[0][1]);
-      crease.setAttribute('x2', onFold[1][0]); crease.setAttribute('y2', onFold[1][1]);
-      crease.style.opacity = 1;
-    } else crease.style.opacity = 0;
-    // градієнт клапана: від лінії згину до кінчика
-    const k = Math.max(c, 0) / 2;
-    flapGrad.setAttribute('x1', k); flapGrad.setAttribute('y1', k);
-    flapGrad.setAttribute('x2', c - H); flapGrad.setAttribute('y2', c - W);
-    before.style.filter = `saturate(${.55 + p * .45}) brightness(${.98 - p * .1})`;
-    stage.style.setProperty('--p', Math.min(1, p).toFixed(3));
-    stage.classList.toggle('is-open', p > .18);
-    stage.classList.toggle('is-done', p > .72);
-    if (hint) hint.style.opacity = p > .04 ? 0 : 1;
-  };
-
-  const measure = () => {
-    const r = peel.getBoundingClientRect();
-    W = r.width; H = r.height;
-    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    filmGrad.setAttribute('x2', W); filmGrad.setAttribute('y2', H);
-  };
-
-  const progress = () => {
-    if (reduce.matches) return .5;
-    const r = stage.getBoundingClientRect();
-    const run = r.height - (innerHeight - 72);
-    const p = run > 0 ? -r.top / run : 0;
-    // невелика пауза на старті й наприкінці
-    return Math.min(1, Math.max(0, (p - .06) / .8));
-  };
-
-  const tick = () => {
-    cur += (target - cur) * .16;
-    if (Math.abs(target - cur) < .001) cur = target;
-    draw(Math.max(cur, teaser));
-    raf = cur !== target ? requestAnimationFrame(tick) : 0;
-  };
-  const onScroll = () => { target = progress(); if (!raf) raf = requestAnimationFrame(tick); };
-
-  // блиск по плівці при завантаженні — щоб було зрозуміло, що це плівка
-  const shine = () => {
-    if (reduce.matches) return;
-    const g = document.getElementById('sheenGrad'), t0 = performance.now(), d = 1400, span = W + H;
-    sheen.style.opacity = 1;
-    (function f(t) {
-      const k = Math.min(1, (t - t0) / d), x = -300 + (span + 600) * k;
-      g.setAttribute('x1', x); g.setAttribute('y1', 0); g.setAttribute('x2', x + 260); g.setAttribute('y2', 260);
-      if (k < 1) requestAnimationFrame(f); else { sheen.style.opacity = 0; lift(); }
-    })(t0);
-  };
-
-  // кут плівки трохи відгинається сам — підказка, що її можна зняти
-  const lift = () => {
-    const t0 = performance.now(), d = 900;
-    (function f(t) {
-      const k = Math.min(1, (t - t0) / d);
-      teaser = .07 * (1 - Math.pow(1 - k, 3));
-      if (cur < teaser) draw(teaser);
-      if (k < 1) requestAnimationFrame(f);
-    })(t0);
-  };
-
-  measure(); target = cur = progress(); draw(cur);
-  addEventListener('scroll', onScroll, { passive: true });
-  addEventListener('resize', () => { measure(); draw(Math.max(cur, teaser)); onScroll(); });
-  setTimeout(shine, 700);
+  }).observe(anchor);
 })();
 
-// ===== Поява блоків при скролі =====
+// ===== Поява при скролі =====
 (() => {
   const els = document.querySelectorAll('[data-reveal]');
-  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    els.forEach(e => e.classList.add('is-in')); return;
-  }
+  if (!('IntersectionObserver' in window) || reduce) { els.forEach(e => e.classList.add('is-in')); return; }
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
-  }), { rootMargin: '0px 0px -12% 0px' });
-  els.forEach((e, i) => { e.style.transitionDelay = (i % 3) * 90 + 'ms'; io.observe(e); });
+  }), { rootMargin: '0px 0px -10% 0px' });
+  els.forEach(e => io.observe(e));
 })();
 
-// ===== Технологія: вертикальний скрол → горизонтальний рух кроків =====
+// ===== Hero: дим =====
+(() => {
+  const c = document.querySelector('.hero__smoke');
+  if (!c || reduce) return;
+  const ctx = c.getContext('2d');
+  let W, H, dpr, parts = [], run = true;
+  const sprite = document.createElement('canvas');
+  sprite.width = sprite.height = 256;
+  const s = sprite.getContext('2d');
+  const g = s.createRadialGradient(128, 128, 0, 128, 128, 128);
+  g.addColorStop(0, 'rgba(225,220,210,.16)');
+  g.addColorStop(.5, 'rgba(225,220,210,.06)');
+  g.addColorStop(1, 'rgba(225,220,210,0)');
+  s.fillStyle = g; s.fillRect(0, 0, 256, 256);
+
+  const size = () => {
+    dpr = Math.min(devicePixelRatio || 1, 1.5);
+    W = c.clientWidth; H = c.clientHeight;
+    c.width = W * dpr; c.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  };
+  const spawn = (init) => ({
+    x: W * (.25 + Math.random() * .5),
+    y: init ? H * (.3 + Math.random() * .7) : H + 120,
+    r: 160 + Math.random() * 260,
+    vx: (Math.random() - .5) * .25,
+    vy: -(.25 + Math.random() * .45),
+    a: 0, life: 0, max: 900 + Math.random() * 700, rot: Math.random() * 6.28, vr: (Math.random() - .5) * .002
+  });
+  size();
+  for (let i = 0; i < 16; i++) parts.push(spawn(true));
+  const tick = () => {
+    if (!run) return;
+    ctx.clearRect(0, 0, W, H);
+    for (const p of parts) {
+      p.life++; p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+      const t = p.life / p.max;
+      p.a = t < .2 ? t / .2 : t > .75 ? (1 - t) / .25 : 1;
+      ctx.globalAlpha = Math.max(0, p.a);
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+      ctx.drawImage(sprite, -p.r, -p.r * .7, p.r * 2, p.r * 1.4);
+      ctx.restore();
+      if (p.life >= p.max) Object.assign(p, spawn(false));
+    }
+    requestAnimationFrame(tick);
+  };
+  addEventListener('resize', size);
+  new IntersectionObserver(([e]) => { const was = run; run = e.isIntersecting; if (run && !was) tick(); }).observe(c);
+  tick();
+})();
+
+// ===== Hero: глибина при скролі =====
+(() => {
+  const hero = document.querySelector('.hero');
+  const word = document.querySelector('.hero__word');
+  const chef = document.querySelector('.hero__chef');
+  if (!hero || reduce) return;
+  const f = () => {
+    const p = clamp01(scrollY / hero.offsetHeight);
+    if (p >= 1) return;
+    word.style.transform = `translateY(${p * 22}vh)`;
+    chef.style.transform = `translate(-50%, ${p * 8}vh) scale(${1 + p * .06})`;
+  };
+  addEventListener('scroll', f, { passive: true });
+})();
+
+// ===== Маніфест: слова проявляються при скролі =====
+(() => {
+  const el = document.querySelector('.intro__text');
+  if (!el || reduce) return;
+  const wrap = node => {
+    [...node.childNodes].forEach(n => {
+      if (n.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(part => {
+          if (/^\s+$/.test(part) || !part) frag.appendChild(document.createTextNode(part));
+          else { const s = document.createElement('span'); s.className = 'w'; s.textContent = part; frag.appendChild(s); }
+        });
+        n.replaceWith(frag);
+      } else if (n.nodeType === 1) wrap(n);
+    });
+  };
+  wrap(el);
+  const words = el.querySelectorAll('.w');
+  const f = () => {
+    const r = el.getBoundingClientRect();
+    const p = clamp01((innerHeight * .85 - r.top) / (r.height + innerHeight * .35));
+    const n = Math.round(p * words.length);
+    words.forEach((w, i) => w.classList.toggle('is-on', i < n));
+  };
+  addEventListener('scroll', f, { passive: true }); f();
+})();
+
+// ===== Техкарта бургера: розкладаємо на шари =====
+(() => {
+  const sec0 = document.querySelector('.burger-tk');
+  if (!sec0 || reduce) return;
+  const sec = sec0.querySelector('.burger-tk__track');
+  const layers = sec0.querySelectorAll('.bt__l');
+  const tags = sec0.querySelectorAll('.bt__tag');
+  const bt = sec0.querySelector('.bt');
+  const off = [-2, -1, 0, 1, 2];
+  const f = () => {
+    const r = sec.getBoundingClientRect();
+    const run = sec.offsetHeight - innerHeight;
+    const p = clamp01(-r.top / run);
+    const e = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2; // ease
+    const k = Math.min(1, e * 1.6);
+    const u = bt.offsetHeight * .075;
+    layers.forEach((l, i) => { l.style.transform = `translateY(${off[i] * u * k}px)`; });
+    tags.forEach((t, i) => { t.style.transform = `translateY(${off[i] * u * k}px)`; });
+    sec0.classList.toggle('is-open', k > .35);
+  };
+  addEventListener('scroll', f, { passive: true }); addEventListener('resize', f); f();
+})();
+
+// ===== Як працюємо: горизонтальний рух кроків =====
 (() => {
   const sec = document.querySelector('.tech');
   if (!sec) return;
   const pin = sec.querySelector('.tech__pin');
   const track = sec.querySelector('.tech__track');
-  const vp = sec.querySelector('.tech__viewport');
+  const head = sec.querySelector('.tech__head');
   const wide = matchMedia('(min-width: 1024px)');
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   let dist = 0;
-
   const setup = () => {
-    if (wide.matches && !reduce.matches) {
-      const pad = parseFloat(getComputedStyle(document.querySelector('.container')).paddingLeft);
-      const box = document.querySelector('.tech__head').getBoundingClientRect();
-      track.style.paddingLeft = box.left + pad + 'px';
-      track.style.paddingRight = box.left + pad + 'px';
+    if (wide.matches && !reduce) {
+      const pad = parseFloat(getComputedStyle(head).paddingLeft);
+      const left = head.getBoundingClientRect().left + pad;
+      track.style.paddingLeft = track.style.paddingRight = left + 'px';
       dist = Math.max(0, track.scrollWidth - innerWidth);
       sec.style.height = pin.offsetHeight + dist + 'px';
     } else {
@@ -181,21 +184,28 @@ if (sticky && heroActions && 'IntersectionObserver' in window) {
     update();
   };
   const update = () => {
-    let p;
-    if (dist) {
-      const r = sec.getBoundingClientRect();
-      p = Math.min(1, Math.max(0, (72 - r.top) / dist));
-      track.style.transform = `translate3d(${-p * dist}px,0,0)`;
-    } else {
-      p = vp.scrollWidth > vp.clientWidth ? vp.scrollLeft / (vp.scrollWidth - vp.clientWidth) : 0;
-    }
+    if (!dist) { sec.style.setProperty('--tp', 1); return; }
+    const p = clamp01(-sec.getBoundingClientRect().top / dist);
+    track.style.transform = `translate3d(${-p * dist}px,0,0)`;
     sec.style.setProperty('--tp', p.toFixed(3));
   };
   addEventListener('scroll', update, { passive: true });
-  vp.addEventListener('scroll', update, { passive: true });
   addEventListener('resize', setup);
   addEventListener('load', setup);
   setup();
+})();
+
+// ===== Кадр-пауза: легкий паралакс =====
+(() => {
+  const img = document.querySelector('.frame__img');
+  if (!img || reduce) return;
+  const f = () => {
+    const r = img.parentElement.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    const p = (innerHeight - r.top) / (innerHeight + r.height);
+    img.style.transform = `translateY(${(p - .5) * -10}%)`;
+  };
+  addEventListener('scroll', f, { passive: true }); f();
 })();
 
 // ===== Вартість: кухонні ваги =====
@@ -205,9 +215,7 @@ if (sticky && heroActions && 'IntersectionObserver' in window) {
   const scale = document.querySelector('.scale');
   const sv = document.getElementById('sv'), iv = document.getElementById('iv'), tv = document.getElementById('tv');
   const fmt = n => n.toLocaleString('uk-UA').replace(/\s/g, ' ');
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let cur = { s: 3300, a: 15000, b: 25000 };
-
   const render = v => {
     sv.textContent = '$' + fmt(Math.round(v.s));
     iv.textContent = '$' + fmt(Math.round(v.a / 100) * 100) + '–' + fmt(Math.round(v.b / 100) * 100);
@@ -244,10 +252,10 @@ if (sticky && heroActions && 'IntersectionObserver' in window) {
   render(cur);
 })();
 
-// ===== 20+: фото повільно рухається всередині цифр =====
+// ===== 20+: фото рухається всередині цифр =====
 (() => {
   const n = document.querySelector('.venues__num');
-  if (!n || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!n || reduce) return;
   const f = () => {
     const r = n.getBoundingClientRect();
     if (r.bottom < 0 || r.top > innerHeight) return;
@@ -264,31 +272,17 @@ if (sticky && heroActions && 'IntersectionObserver' in window) {
   const area = form.querySelector('#f-area');
   const status = form.querySelector('.form__status');
   const btn = form.querySelector('.form__btn');
-
-  // площа з калькулятора
   const applyArea = () => {
     let a; try { a = sessionStorage.getItem('area'); } catch (e) {}
     if (a) [...area.options].forEach(o => { o.selected = o.text === a; });
   };
-  document.querySelectorAll('[data-pick-area], a[href="#rozrakhunok"]').forEach(l => l.addEventListener('click', applyArea));
-  // ситуація з карток «З чим приходять»
-  const sit = form.querySelector('#f-sit');
-  document.querySelectorAll('[data-situation]').forEach(l => l.addEventListener('click', () => {
-    [...sit.options].forEach(o => { o.selected = o.text === l.dataset.situation; });
-  }));
+  document.querySelectorAll('a[href="#rozrakhunok"]').forEach(l => l.addEventListener('click', applyArea));
 
   const name = form.querySelector('#f-name'), contact = form.querySelector('#f-contact');
   const okName = () => /\p{L}{2}/u.test(name.value.trim());
-  const okContact = () => {
-    const v = contact.value.trim();
-    return /^@?[a-zA-Z][\w]{4,31}$/.test(v) || v.replace(/\D/g, '').length >= 10;
-  };
-  const mark = (input, ok) => {
-    input.closest('.field').classList.toggle('is-error', !ok);
-    input.setAttribute('aria-invalid', !ok);
-  };
-  [[name, okName], [contact, okContact]].forEach(([el, fn]) =>
-    el.addEventListener('blur', () => { if (el.value) mark(el, fn()); }));
+  const okContact = () => { const v = contact.value.trim(); return /^@?[a-zA-Z][\w]{4,31}$/.test(v) || v.replace(/\D/g, '').length >= 10; };
+  const mark = (input, ok) => { input.closest('.field').classList.toggle('is-error', !ok); input.setAttribute('aria-invalid', !ok); };
+  [[name, okName], [contact, okContact]].forEach(([el, fn]) => el.addEventListener('blur', () => { if (el.value) mark(el, fn()); }));
 
   form.addEventListener('submit', async e => {
     e.preventDefault();
@@ -296,7 +290,6 @@ if (sticky && heroActions && 'IntersectionObserver' in window) {
     mark(name, a); mark(contact, b);
     if (!a) { name.focus(); return; }
     if (!b) { contact.focus(); return; }
-
     const data = Object.fromEntries(new FormData(form));
     btn.disabled = true;
     status.className = 'form__status'; status.textContent = 'Надсилаємо…';
