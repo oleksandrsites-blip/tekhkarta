@@ -54,7 +54,8 @@ h1,h2,h3,.intro__text,.frame__text{text-wrap:balance}
 
 /* ===== Лого ===== */
 .logo{display:inline-flex;align-items:center;gap:10px;min-height:44px;text-decoration:none;color:var(--text)}
-.logo__dot{width:34px;height:34px;border-radius:50%;background:var(--accent);color:#120B07;display:grid;place-items:center;font:800 18px/1 var(--display);rotate:-8deg;padding-bottom:2px;flex:none}
+.logo__mark{width:26px;height:26px;flex:none;fill:none;stroke:var(--accent);stroke-width:6.5;transition:transform .5s var(--ease)}
+.logo:hover .logo__mark{transform:rotate(-6deg)}
 .logo b{font:600 19px/1 var(--display);letter-spacing:-.02em}
 
 /* ===== Хедер ===== */
@@ -84,7 +85,8 @@ h1,h2,h3,.intro__text,.frame__text{text-wrap:balance}
 /* ===== Прелоадер ===== */
 .preloader{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center;transition:transform .9s cubic-bezier(.76,0,.24,1)}
 .preloader__in{display:grid;justify-items:center;gap:22px}
-.preloader .logo__dot{width:56px;height:56px;font-size:30px;animation:dotIn .8s var(--ease) both}
+.preloader .logo__mark{width:26px;height:26px;flex:none;fill:none;stroke:var(--accent);stroke-width:6.5;transition:transform .5s var(--ease)}
+.logo:hover .logo__mark{transform:rotate(-6deg)}
 @keyframes dotIn{from{transform:scale(.4) rotate(-90deg);opacity:0}}
 .preloader__bar{width:120px;height:1px;background:rgba(237,234,227,.15);overflow:hidden}
 .preloader__bar i{display:block;height:100%;background:var(--accent);transform-origin:left;animation:barGo 1.1s .1s cubic-bezier(.6,0,.2,1) both}
