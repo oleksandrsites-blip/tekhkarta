@@ -138,51 +138,49 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   addEventListener('scroll', f, { passive: true }); f();
 })();
 
-// ===== Техкарта бургера: розкладаємо на шари =====
+// ===== Техкарта бургера: бургер розлітається на шари =====
 (() => {
   const sec0 = document.querySelector('.burger-tk');
-  if (!sec0 || reduce) return;
+  if (!sec0) return;
   const sec = sec0.querySelector('.burger-tk__track');
-  const layers = sec0.querySelectorAll('.bt__l');
-  const tags = sec0.querySelectorAll('.bt__tag');
+  const full = sec0.querySelector('.bt__full');
+  const layers = [...sec0.querySelectorAll('.bt__l')];
   const bt = sec0.querySelector('.bt');
-  const off = [-2, -1, 0, 1, 2];
+  const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const draw = p => {
+    const H = bt.offsetHeight;
+    const fade = clamp01((p - .08) / .16);          // зібраний → шари
+    const spread = ease(clamp01((p - .1) / .7));      // розліт
+    const k = -.36 + spread * .46;                    // від стиснутого до розлетілого
+    full.style.opacity = 1 - fade;
+    full.style.transform = `scale(${.98 - fade * .04})`;
+    layers.forEach(l => {
+      const c = parseFloat(l.style.getPropertyValue('--c'));
+      l.style.opacity = fade;
+      l.style.transform = `translateY(${c / 100 * H * k}px)`;
+    });
+  };
+  if (reduce) { draw(1); return; }
   const f = () => {
     const r = sec.getBoundingClientRect();
-    const run = sec.offsetHeight - innerHeight;
-    const p = clamp01(-r.top / run);
-    const e = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2; // ease
-    const k = Math.min(1, e * 1.6);
-    const u = bt.offsetHeight * .075;
-    layers.forEach((l, i) => { l.style.transform = `translateY(${off[i] * u * k}px)`; });
-    tags.forEach((t, i) => { t.style.transform = `translateY(${off[i] * u * k}px)`; });
-    sec0.classList.toggle('is-open', k > .35);
+    draw(clamp01(-r.top / (sec.offsetHeight - innerHeight)));
   };
   addEventListener('scroll', f, { passive: true }); addEventListener('resize', f); f();
 })();
 
-// ===== Як працюємо: повноекранні кадри змінюють один одного =====
+// ===== Як працюємо: активний крок і фото поруч =====
 (() => {
-  const sec = document.querySelector('.flow');
-  if (!sec) return;
-  const bgs = sec.querySelectorAll('.flow__bg');
-  const steps = sec.querySelectorAll('.flow__step');
-  const n = steps.length;
-  let cur = 0;
-  const set = i => {
-    if (i === cur) return;
-    cur = i;
-    steps.forEach((s, k) => { s.classList.toggle('is-on', k === i); s.classList.toggle('is-past', k < i); });
-    bgs.forEach((b, k) => b.classList.toggle('is-on', k === i));
-  };
+  const steps = [...document.querySelectorAll('.flow__step')];
+  const imgs = [...document.querySelectorAll('.flow__frame img')];
+  if (!steps.length) return;
   const f = () => {
-    const r = sec.getBoundingClientRect();
-    const p = clamp01(-r.top / (sec.offsetHeight - innerHeight));
-    sec.style.setProperty('--fp', p.toFixed(3));
-    set(Math.min(n - 1, Math.floor(p * n * .999)));
+    const mid = innerHeight * .5;
+    let act = 0;
+    steps.forEach((s, i) => { if (s.getBoundingClientRect().top < mid) act = i; });
+    steps.forEach((s, i) => s.classList.toggle('is-on', i === act));
+    imgs.forEach((im, i) => im.classList.toggle('is-on', i === act));
   };
-  if (reduce) { sec.style.height = 'auto'; }
-  addEventListener('scroll', f, { passive: true }); addEventListener('resize', f); f();
+  addEventListener('scroll', f, { passive: true }); f();
 })();
 
 // ===== Кадр-пауза: легкий паралакс =====
@@ -242,17 +240,18 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   render(cur);
 })();
 
-// ===== Заклади: паралакс кадрів =====
+// ===== Заклади: фото з'являється біля курсора =====
 (() => {
-  const imgs = document.querySelectorAll('.vband img');
-  if (!imgs.length || reduce) return;
-  const f = () => imgs.forEach(img => {
-    const r = img.parentElement.getBoundingClientRect();
-    if (r.bottom < 0 || r.top > innerHeight) return;
-    const p = (innerHeight - r.top) / (innerHeight + r.height);
-    img.style.transform = `translateY(${(p - .5) * -12}%)`;
+  const peek = document.querySelector('.vpeek');
+  if (!peek || !matchMedia('(hover: hover) and (min-width: 1024px)').matches) return;
+  const pi = peek.querySelector('img');
+  let x = 0, y = 0, tx = 0, ty = 0, raf = 0;
+  const loop = () => { x += (tx - x) * .18; y += (ty - y) * .18; peek.style.left = x + 'px'; peek.style.top = y + 'px'; raf = Math.abs(tx - x) + Math.abs(ty - y) > .5 ? requestAnimationFrame(loop) : 0; };
+  document.querySelectorAll('.vrow').forEach(r => {
+    r.addEventListener('mouseenter', e => { pi.src = r.querySelector('img').src; x = tx = e.clientX; y = ty = e.clientY; peek.classList.add('is-on'); });
+    r.addEventListener('mousemove', e => { tx = e.clientX + 120; ty = e.clientY; if (!raf) raf = requestAnimationFrame(loop); });
+    r.addEventListener('mouseleave', () => peek.classList.remove('is-on'));
   });
-  addEventListener('scroll', f, { passive: true }); f();
 })();
 
 // ===== Форма прорахунку =====
@@ -264,7 +263,7 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   const btn = form.querySelector('.form__btn');
   const applyArea = () => {
     let a; try { a = sessionStorage.getItem('area'); } catch (e) {}
-    if (a) [...area.options].forEach(o => { o.selected = o.text === a; });
+    if (a) area.value = a;
   };
   document.querySelectorAll('a[href="#rozrakhunok"]').forEach(l => l.addEventListener('click', applyArea));
 
