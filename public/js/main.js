@@ -161,38 +161,28 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   addEventListener('scroll', f, { passive: true }); addEventListener('resize', f); f();
 })();
 
-// ===== Як працюємо: горизонтальний рух кроків =====
+// ===== Як працюємо: повноекранні кадри змінюють один одного =====
 (() => {
-  const sec = document.querySelector('.tech');
+  const sec = document.querySelector('.flow');
   if (!sec) return;
-  const pin = sec.querySelector('.tech__pin');
-  const track = sec.querySelector('.tech__track');
-  const head = sec.querySelector('.tech__head');
-  const wide = matchMedia('(min-width: 1024px)');
-  let dist = 0;
-  const setup = () => {
-    if (wide.matches && !reduce) {
-      const pad = parseFloat(getComputedStyle(head).paddingLeft);
-      const left = head.getBoundingClientRect().left + pad;
-      track.style.paddingLeft = track.style.paddingRight = left + 'px';
-      dist = Math.max(0, track.scrollWidth - innerWidth);
-      sec.style.height = pin.offsetHeight + dist + 'px';
-    } else {
-      sec.style.height = ''; track.style.transform = ''; track.style.paddingLeft = track.style.paddingRight = '';
-      dist = 0;
-    }
-    update();
+  const bgs = sec.querySelectorAll('.flow__bg');
+  const steps = sec.querySelectorAll('.flow__step');
+  const n = steps.length;
+  let cur = 0;
+  const set = i => {
+    if (i === cur) return;
+    cur = i;
+    steps.forEach((s, k) => { s.classList.toggle('is-on', k === i); s.classList.toggle('is-past', k < i); });
+    bgs.forEach((b, k) => b.classList.toggle('is-on', k === i));
   };
-  const update = () => {
-    if (!dist) { sec.style.setProperty('--tp', 1); return; }
-    const p = clamp01(-sec.getBoundingClientRect().top / dist);
-    track.style.transform = `translate3d(${-p * dist}px,0,0)`;
-    sec.style.setProperty('--tp', p.toFixed(3));
+  const f = () => {
+    const r = sec.getBoundingClientRect();
+    const p = clamp01(-r.top / (sec.offsetHeight - innerHeight));
+    sec.style.setProperty('--fp', p.toFixed(3));
+    set(Math.min(n - 1, Math.floor(p * n * .999)));
   };
-  addEventListener('scroll', update, { passive: true });
-  addEventListener('resize', setup);
-  addEventListener('load', setup);
-  setup();
+  if (reduce) { sec.style.height = 'auto'; }
+  addEventListener('scroll', f, { passive: true }); addEventListener('resize', f); f();
 })();
 
 // ===== Кадр-пауза: легкий паралакс =====
@@ -252,16 +242,16 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   render(cur);
 })();
 
-// ===== 20+: фото рухається всередині цифр =====
+// ===== Заклади: паралакс кадрів =====
 (() => {
-  const n = document.querySelector('.venues__num');
-  if (!n || reduce) return;
-  const f = () => {
-    const r = n.getBoundingClientRect();
+  const imgs = document.querySelectorAll('.vband img');
+  if (!imgs.length || reduce) return;
+  const f = () => imgs.forEach(img => {
+    const r = img.parentElement.getBoundingClientRect();
     if (r.bottom < 0 || r.top > innerHeight) return;
     const p = (innerHeight - r.top) / (innerHeight + r.height);
-    n.style.backgroundPosition = `${20 + p * 60}% ${25 + p * 40}%`;
-  };
+    img.style.transform = `translateY(${(p - .5) * -12}%)`;
+  });
   addEventListener('scroll', f, { passive: true }); f();
 })();
 
