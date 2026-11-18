@@ -50,23 +50,7 @@
 <main>
 
   <section class="stage" id="stage" aria-labelledby="hero-title">
-    <div class="stage__sticky container">
-      <div class="hero__text">
-        <h1 class="h1 hero__h1" id="hero-title"><span class="ln"><span>Відкриємо ваш заклад</span></span> <span class="ln"><span class="nobr-lg">за&nbsp;техкартою шефа</span></span></h1>
-        <p class="hero__lead">Від порожнього приміщення до першого гостя за&nbsp;<span class="nobr">1,5–3&nbsp;місяці</span>. Концепція, кухня, меню, обладнання й команда розписані до дрібниць, а&nbsp;ціна фіксована й залежить від площі: від&nbsp;<span class="nobr">$2&nbsp;800</span>.</p>
-        <p class="hero__facts mono">1,5–3 міс · від $2&nbsp;800 · вся Україна</p>
-        <div class="hero__actions">
-          <a class="btn btn--cta" href="#rozrakhunok">Отримати прорахунок
-            <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="2"/></svg></a>
-          <a class="btn btn--ghost" href="https://t.me/Dima_Brss" target="_blank" rel="noopener"><span>Написати в&nbsp;Telegram</span></a>
-        </div>
-        <div class="hero__chef">
-          <img src="img/chef-sm.jpg" alt="" width="160" height="240">
-          <p><b>Дмитро, бренд-шеф</b><span>у HoReCa з 2012 · 20+ закладів</span></p>
-        </div>
-        <p class="hero__hint mono" aria-hidden="true">Гортайте — знімаємо плівку <span>↓</span></p>
-      </div>
-
+    <div class="stage__sticky">
       <div class="peel" id="peel">
         <video class="peel__before" src="video/kitchen.mp4" poster="img/kitchen.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
         <img class="peel__after" src="img/redcat.jpg" alt="День відкриття Red Cat Pub у Харкові: команда за барною стійкою" width="1100" height="1070">
@@ -103,9 +87,25 @@
           <polygon class="peel__flap" fill="url(#flapGrad)" filter="url(#flapShadow)"/>
           <line class="peel__crease" stroke="#fff" stroke-width="2" stroke-opacity=".9"/>
         </svg>
-        <span class="tape peel__lab peel__lab--before"><small>старт</small>кухня ще в&nbsp;плівці</span>
-        <span class="tape peel__lab peel__lab--after"><small>через 1,5–3 місяці</small>перший гість</span>
-        <div class="peel__bar" aria-hidden="true"><span>старт</span><i><b></b></i><span>відкриття</span></div>
+      </div>
+      <div class="stage__shade" aria-hidden="true"></div>
+
+      <div class="container stage__content">
+        <p class="stage__kicker mono" aria-hidden="true"><span class="k k--before">Кухня ще в плівці</span><span class="k k--after">Через 1,5–3 місяці — перший гість</span></p>
+        <h1 class="stage__h1" id="hero-title"><span class="ln"><span>Відкриємо ваш заклад</span></span> <span class="ln"><span class="nobr-lg">за&nbsp;техкартою шефа</span></span></h1>
+        <div class="stage__row">
+          <p class="stage__lead">Від порожнього приміщення до першого гостя. Веде бренд-шеф, який відкрив понад 20&nbsp;закладів по Україні. Ціна&nbsp;— від&nbsp;<span class="nobr">$2&nbsp;800</span>, залежить від площі.</p>
+          <div class="hero__actions">
+            <a class="btn btn--cta" href="#rozrakhunok">Отримати прорахунок
+              <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="2"/></svg></a>
+            <a class="stage__tg" href="https://t.me/Dima_Brss" target="_blank" rel="noopener">або напишіть шефу в&nbsp;Telegram</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="container stage__foot" aria-hidden="true">
+        <div class="peel__bar"><span>старт</span><i><b></b></i><span>відкриття</span></div>
+        <p class="hero__hint mono">Гортайте — знімаємо плівку <span>↓</span></p>
       </div>
     </div>
   </section>

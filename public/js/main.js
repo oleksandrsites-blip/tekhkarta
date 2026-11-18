@@ -84,9 +84,9 @@ if (sticky && heroActions && 'IntersectionObserver' in window) {
     flapGrad.setAttribute('x1', k); flapGrad.setAttribute('y1', k);
     flapGrad.setAttribute('x2', c - H); flapGrad.setAttribute('y2', c - W);
     before.style.filter = `saturate(${.55 + p * .45}) brightness(${.98 - p * .1})`;
-    peel.style.setProperty('--p', Math.min(1, p).toFixed(3));
-    peel.classList.toggle('is-open', p > .18);
-    peel.classList.toggle('is-done', p > .72);
+    stage.style.setProperty('--p', Math.min(1, p).toFixed(3));
+    stage.classList.toggle('is-open', p > .18);
+    stage.classList.toggle('is-done', p > .72);
     if (hint) hint.style.opacity = p > .04 ? 0 : 1;
   };
 
