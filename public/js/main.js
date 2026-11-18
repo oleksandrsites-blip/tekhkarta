@@ -21,7 +21,7 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
 
 // ===== Без «сиріт»: останні два слова в заголовках і коротких рядках не розриваються =====
 (() => {
-  document.querySelectorAll('h1, h2, h3, summary, .qa__item p, .burger-tk__list li, .vrow b, .flow__step p, .lead__sub, .venues__cta p, .frame__text').forEach(el => {
+  document.querySelectorAll('h1, h2, h3, summary, .qa__item p, .burger-tk__list li, .vcard__name, .vnext__t, .flow__step p, .lead__sub, .venues__cta p, .frame__text').forEach(el => {
     const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
     let last = null, n;
     while ((n = walk.nextNode())) if (n.data.trim()) last = n;
@@ -301,18 +301,52 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   render(cur);
 })();
 
-// ===== Заклади: фото з'являється біля курсора =====
+// ===== Заклади: горизонтальна стрічка на скролі (десктоп), свайп (мобілка) =====
 (() => {
-  const peek = document.querySelector('.vpeek');
-  if (!peek || !matchMedia('(hover: hover) and (min-width: 1024px)').matches) return;
-  const pi = peek.querySelector('img');
-  let x = 0, y = 0, tx = 0, ty = 0, raf = 0;
-  const loop = () => { x += (tx - x) * .18; y += (ty - y) * .18; peek.style.left = x + 'px'; peek.style.top = y + 'px'; raf = Math.abs(tx - x) + Math.abs(ty - y) > .5 ? requestAnimationFrame(loop) : 0; };
-  document.querySelectorAll('.vrow').forEach(r => {
-    r.addEventListener('mouseenter', e => { pi.src = r.querySelector('img').src; x = tx = e.clientX; y = ty = e.clientY; peek.classList.add('is-on'); });
-    r.addEventListener('mousemove', e => { tx = e.clientX + 120; ty = e.clientY; if (!raf) raf = requestAnimationFrame(loop); });
-    r.addEventListener('mouseleave', () => peek.classList.remove('is-on'));
-  });
+  const track = document.querySelector('.vtrack');
+  if (!track) return;
+  const rail = track.querySelector('.vrail');
+  const cards = [...rail.children];
+  const imgs = cards.map(c => c.querySelector('img'));
+  const bar = track.querySelector('.vbar i');
+  const num = track.querySelector('.vcount b');
+  const mq = matchMedia('(min-width: 1024px) and (prefers-reduced-motion: no-preference)');
+  let dist = 0, cur = 0, target = 0, raf = 0;
+  const setup = () => {
+    document.documentElement.classList.toggle('js-rail', mq.matches);
+    if (!mq.matches) { track.style.height = ''; rail.style.transform = ''; return; }
+    const last = cards[cards.length - 1];
+    dist = Math.max(0, last.offsetLeft + last.offsetWidth + parseFloat(getComputedStyle(rail).paddingLeft) - innerWidth);
+    track.style.height = (innerHeight + dist) + 'px';
+    measure(); cur = target; paint();
+  };
+  const measure = () => {
+    const r = track.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - innerHeight)));
+    target = p * dist;
+  };
+  const paint = () => {
+    rail.style.transform = `translate3d(${-cur}px,0,0)`;
+    const p = dist ? cur / dist : 0;
+    if (bar) bar.style.transform = `scaleX(${p})`;
+    if (num) num.textContent = String(Math.min(cards.length, Math.round(p * (cards.length - 1)) + 1)).padStart(2, '0');
+    cards.forEach((c, i) => {
+      const img = imgs[i]; if (!img) return;
+      const r = c.getBoundingClientRect();
+      const k = (r.left + r.width / 2) / innerWidth - .5;      // -0.5..0.5 відносно центру екрана
+      img.style.setProperty('--px', (-8 - k * 10).toFixed(2) + '%');
+    });
+  };
+  const loop = () => {
+    cur += (target - cur) * .12;
+    paint();
+    raf = Math.abs(target - cur) > .3 ? requestAnimationFrame(loop) : 0;
+  };
+  addEventListener('scroll', () => { if (!mq.matches) return; measure(); if (!raf) raf = requestAnimationFrame(loop); }, { passive: true });
+  addEventListener('resize', setup);
+  mq.addEventListener('change', setup);
+  imgs.forEach(i => i && i.addEventListener('load', setup, { once: true }));
+  setup();
 })();
 
 // ===== Форма прорахунку =====
