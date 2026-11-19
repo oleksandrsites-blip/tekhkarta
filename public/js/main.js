@@ -21,7 +21,7 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
 
 // ===== Без «сиріт»: останні два слова в заголовках і коротких рядках не розриваються =====
 (() => {
-  document.querySelectorAll('h1, h2, h3, summary, .qa__item p, .burger-tk__list li, .vcard__name, .vnext__t, .flow__step p, .lead__sub, .venues__cta p, .frame__text').forEach(el => {
+  document.querySelectorAll('h1, h2, h3, summary, .qa__item p, .burger-tk__list li,  .flow__step p, .lead__sub, .venues__cta p, .frame__text').forEach(el => {
     const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
     let last = null, n;
     while ((n = walk.nextNode())) if (n.data.trim()) last = n;
