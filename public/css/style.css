@@ -82,6 +82,8 @@ h1,h2,h3,.intro__text,.frame__text{text-wrap:balance}
   .header__cta{min-height:40px;padding:0 12px;font-size:12px;letter-spacing:.08em;background:var(--accent);border-color:var(--accent);color:#120B07}
   .header__cta:hover{background:var(--text);border-color:var(--text);color:var(--bg)}
 }
+.header__cta{gap:0}
+.header__cta-x{margin-right:.4em}
 @media (max-width:767px){.header__cta-x{display:none}}
 @media (max-width:419px){.logo{gap:8px}.logo b{font-size:17px}}
 @media (max-width:359px){.logo b{display:none}}
