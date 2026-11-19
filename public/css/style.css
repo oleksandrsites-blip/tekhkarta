@@ -95,32 +95,30 @@ h1,h2,h3,.intro__text,.frame__text{text-wrap:balance}
 .is-gone .preloader{display:none}
 
 /* ===== Hero ===== */
-.hero{position:relative;height:100vh;height:100svh;min-height:640px;overflow:hidden;isolation:isolate;background:var(--bg);--mx:50%;--my:42%}
+.hero{position:relative;height:100vh;height:calc(var(--vh,1svh) * 100);min-height:640px;overflow:hidden;isolation:isolate;background:var(--bg)}
 .hero__light{position:absolute;inset:0;z-index:0;
   background:
-    radial-gradient(circle 420px at var(--mx) var(--my),rgba(232,116,59,.08),transparent 70%),
-    radial-gradient(ellipse 50% 60% at 50% 42%,rgba(232,116,59,.10),transparent 70%),
-    radial-gradient(ellipse 80% 70% at 50% 50%,#1C1B19 0%,#0E0E0D 70%);}
+    radial-gradient(ellipse 46% 50% at 50% 62%,rgba(232,116,59,.05),transparent 70%),
+    radial-gradient(ellipse 80% 70% at 50% 60%,#171615 0%,#0E0E0D 70%);}
 .hero__light::after{content:"";position:absolute;inset:0;opacity:.22;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E")}
 .hero__layer{position:absolute;inset:0;pointer-events:none;will-change:transform}
 .hero__layer--word{z-index:1}
 .hero__layer--chef{z-index:2}
-.hero__word{position:absolute;left:var(--gutter);right:var(--gutter);top:calc(var(--header-h) + 5vh);text-align:center;white-space:nowrap;
+.hero__word{position:absolute;left:var(--gutter);right:var(--gutter);top:calc(var(--header-h) + var(--vh,1vh) * 5);text-align:center;white-space:nowrap;
   font:800 clamp(64px,14.2vw,260px)/.86 var(--display);letter-spacing:-.05em;text-transform:uppercase;color:var(--text);transition:filter .4s}
-.hero__thin{font-weight:800;color:rgba(237,234,227,.38)}
+.hero__thin{font-weight:800}
 .hero__bold{font-weight:800}
 .hero__word span{display:inline-block;opacity:0}
-.hero__chef{position:absolute;bottom:0;left:50%;height:min(86svh,1050px);width:auto;max-width:none;transform:translateX(-50%);opacity:0;
+.hero__chef{position:absolute;bottom:0;left:50%;height:min(calc(var(--vh,1svh) * 86),1050px);width:auto;max-width:none;transform:translateX(-50%);opacity:0;
   filter:drop-shadow(0 30px 60px rgba(0,0,0,.6)) brightness(.96) contrast(1.04)}
-.is-ready .hero__word span{animation:wordIn 1.3s .25s var(--ease) both}
-.is-ready .hero__word .hero__bold{animation-delay:.37s}
-.is-ready .hero__chef{animation:chefIn 1.5s .35s var(--ease) both}
-@keyframes wordIn{from{opacity:0;transform:translateY(.25em)}to{opacity:1;transform:none}}
-@keyframes chefIn{from{opacity:0;transform:translate(-50%,40px) scale(.98)}to{opacity:1;transform:translateX(-50%)}}
-.hero__smoke{position:absolute;inset:0;z-index:3;width:100%;height:100%;pointer-events:none;mix-blend-mode:screen;opacity:.9}
+.is-ready .hero__word span{animation:wordIn 1.2s .3s var(--ease) both}
+.is-ready .hero__chef{animation:chefIn 1.2s .1s var(--ease) both}
+@keyframes wordIn{from{opacity:0}to{opacity:1}}
+@keyframes chefIn{from{opacity:0}to{opacity:1}}
+.hero__smoke{position:absolute;inset:0;z-index:3;width:100%;height:100%;pointer-events:none;mix-blend-mode:screen;opacity:.5;-webkit-mask-image:linear-gradient(0deg,#000 25%,transparent 70%);mask-image:linear-gradient(0deg,#000 25%,transparent 70%)}
 .hero__shade{position:absolute;inset:auto 0 0;z-index:3;height:46%;pointer-events:none;background:linear-gradient(0deg,rgba(14,14,13,.96) 8%,rgba(14,14,13,.6) 50%,transparent)}
-.hero__ui{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:flex-end;padding-top:var(--header-h);padding-bottom:clamp(24px,4vh,48px);left:0;right:0;pointer-events:none}
+.hero__ui{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:flex-end;padding-top:var(--header-h);padding-bottom:clamp(24px,calc(var(--vh,1vh) * 4),48px);left:0;right:0;pointer-events:none}
 .hero__ui a,.hero__ui p,.hero__ui h1,.hero__ui li{pointer-events:auto}
 .hero__side{display:none;position:absolute;right:var(--gutter);top:calc(var(--header-h) + 36vh);list-style:none;padding:0;text-align:right;font:500 14px/2 var(--font);letter-spacing:.06em;color:var(--muted);opacity:0}
 .hero__side b{color:var(--text);font-weight:700}
@@ -134,8 +132,8 @@ h1,h2,h3,.intro__text,.frame__text{text-wrap:balance}
 .hero__tg{font-size:15px;color:rgba(237,234,227,.72);text-underline-offset:4px;min-height:44px;display:inline-flex;align-items:center}
 .hero__tg:hover{color:var(--text)}
 @media (max-width:767px){
-  .hero__word{top:calc(var(--header-h) + 5svh)}
-  .hero__chef{height:66svh}
+  .hero__word{top:calc(var(--header-h) + var(--vh,1svh) * 5)}
+  .hero__chef{height:calc(var(--vh,1svh) * 66)}
   .hero__shade{height:64%}
   .hero__lead{display:none}
   .hero__proof{display:block}

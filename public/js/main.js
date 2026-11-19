@@ -1,6 +1,19 @@
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clamp01 = v => Math.min(1, Math.max(0, v));
 
+// ===== Фіксована висота першого екрана: без стрибків, коли ховається панель браузера (Telegram, Safari) =====
+(() => {
+  const root = document.documentElement;
+  let w = 0;
+  const set = () => {
+    if (innerWidth === w) return;               // висоту міняємо лише при зміні ширини (поворот, ресайз вікна)
+    w = innerWidth;
+    root.style.setProperty('--vh', (innerHeight / 100) + 'px');
+  };
+  set();
+  addEventListener('resize', set);
+})();
+
 // ===== Прелоадер: чекаємо шрифти й фото шефа, потім м'яко відкриваємо сторінку =====
 (() => {
   const root = document.documentElement;
@@ -141,35 +154,20 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   tick();
 })();
 
-// ===== Hero: глибина при скролі й русі мишки =====
+// ===== Hero: легка глибина при скролі (без реакції на мишку) =====
 (() => {
   const hero = document.querySelector('.hero');
   if (!hero || reduce) return;
   const lw = hero.querySelector('.hero__layer--word');
   const lc = hero.querySelector('.hero__layer--chef');
-  const word = hero.querySelector('.hero__word');
-  let mx = 0, my = 0, tx = 0, ty = 0, sp = 0, raf = 0;
+  let raf = 0;
   const draw = () => {
-    mx += (tx - mx) * .08; my += (ty - my) * .08;
-    const dist = Math.min(1, Math.hypot(mx, my));
-    lw.style.transform = `translate3d(${-mx * 8}px, calc(${sp * 22}vh + ${-my * 4}px), 0)`;
-    lc.style.transform = `translate3d(${mx * 6}px, ${sp * 8}vh, 0) scale(${1 + sp * .06})`;
-    word.style.filter = dist > .02 ? `blur(${(dist * .9).toFixed(2)}px)` : '';
-    hero.style.setProperty('--mx', (50 + mx * 18) + '%');
-    hero.style.setProperty('--my', (42 + my * 14) + '%');
-    raf = Math.abs(tx - mx) + Math.abs(ty - my) > .001 ? requestAnimationFrame(draw) : 0;
+    raf = 0;
+    const sp = clamp01(scrollY / hero.offsetHeight);
+    lw.style.transform = `translate3d(0, ${sp * 22}vh, 0)`;
+    lc.style.transform = `translate3d(0, ${sp * 8}vh, 0) scale(${1 + sp * .06})`;
   };
-  const kick = () => { if (!raf) raf = requestAnimationFrame(draw); };
-  addEventListener('scroll', () => { sp = clamp01(scrollY / hero.offsetHeight); kick(); }, { passive: true });
-  if (matchMedia('(hover: hover)').matches) {
-    hero.addEventListener('pointermove', e => {
-      const r = hero.getBoundingClientRect();
-      tx = (e.clientX - r.left) / r.width * 2 - 1;
-      ty = (e.clientY - r.top) / r.height * 2 - 1;
-      kick();
-    });
-    hero.addEventListener('pointerleave', () => { tx = ty = 0; kick(); });
-  }
+  addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(draw); }, { passive: true });
 })();
 
 // ===== Маніфест: слова проявляються при скролі =====
