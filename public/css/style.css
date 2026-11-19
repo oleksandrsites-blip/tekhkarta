@@ -210,12 +210,24 @@ h1,h2,h3,.intro__text,.frame__text{text-wrap:balance}
 @media (min-width:1024px){.flow__grid{grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:80px;align-items:stretch}.flow__aside{display:block}}
 
 /* ===== Кадр-пауза ===== */
-.frame{padding:var(--section) 0;border-top:1px solid var(--line)}
-.frame__grid{display:grid;gap:40px;align-items:center}
+.frame{position:relative;overflow:hidden;border-top:1px solid var(--line);isolation:isolate}
+.frame__fig{position:relative;margin:0;height:min(118vw,620px);overflow:hidden;
+  -webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent)}
+.frame__img{position:absolute;left:0;top:-6%;width:100%;height:112%;object-fit:cover;object-position:60% 50%;filter:grayscale(.12) contrast(1.06) brightness(.9);will-change:transform}
+.frame__fig::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+  -webkit-mask-image:linear-gradient(0deg,#000 10%,transparent 50%);mask-image:linear-gradient(0deg,#000 10%,transparent 50%)}
+.frame__grid{position:relative;z-index:2;margin-top:-120px;padding-bottom:var(--section)}
 .frame__text{font:300 clamp(30px,3.2vw + 12px,68px)/1.1 var(--display);letter-spacing:-.035em;max-width:13em}
-.frame__fig{position:relative;margin:0;overflow:hidden;max-width:440px;aspect-ratio:4/5;justify-self:end;width:100%}
-.frame__fig img{width:100%;height:100%;object-fit:cover;filter:grayscale(.15) contrast(1.06) brightness(.92)}
-@media (min-width:1024px){.frame__grid{grid-template-columns:1.3fr 1fr;gap:80px}}
+@media (min-width:1024px){
+  .frame{min-height:min(100svh,920px);display:grid;align-items:center}
+  .frame__fig{position:absolute;top:0;right:0;bottom:0;width:54%;height:auto;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 42%),linear-gradient(180deg,transparent,#000 14%,#000 86%,transparent);-webkit-mask-composite:source-in;
+    mask-image:linear-gradient(90deg,transparent,#000 42%),linear-gradient(180deg,transparent,#000 14%,#000 86%,transparent);mask-composite:intersect}
+  .frame__fig::before{-webkit-mask-image:linear-gradient(90deg,#000 8%,transparent 48%);mask-image:linear-gradient(90deg,#000 8%,transparent 48%)}
+  .frame__grid{width:100%;margin-top:0;padding-block:var(--section)}
+  .frame__text{max-width:10.5em}
+  .frame__img{object-position:72% 50%}
+}
 
 /* ===== Вартість: ваги ===== */
 .cost{position:relative;padding:var(--section) 0;overflow:hidden;text-align:center}
