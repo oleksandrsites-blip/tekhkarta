@@ -65,19 +65,6 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   addEventListener('scroll', f, { passive: true }); f();
 })();
 
-// ===== Sticky CTA на мобілці =====
-(() => {
-  const sticky = document.querySelector('.sticky-cta');
-  const anchor = document.querySelector('.hero__right');
-  if (!sticky || !anchor || !('IntersectionObserver' in window)) return;
-  new IntersectionObserver(([e]) => {
-    const show = !e.isIntersecting && e.boundingClientRect.top < 0;
-    sticky.classList.toggle('is-visible', show);
-    sticky.setAttribute('aria-hidden', !show);
-    sticky.querySelectorAll('a').forEach(a => a.tabIndex = show ? 0 : -1);
-  }).observe(anchor);
-})();
-
 // ===== Поява при скролі =====
 (() => {
   const els = document.querySelectorAll('[data-reveal]');
