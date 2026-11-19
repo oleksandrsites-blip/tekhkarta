@@ -170,38 +170,37 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(draw); }, { passive: true });
 })();
 
-// ===== Hero: ледь помітні хвилі на фоні від руху мишки, як по воді =====
+// ===== Hero: ледь помітний слід від мишки, як рукою по снігу — одразу тане =====
 (() => {
   const c = document.querySelector('.hero__ripple');
   if (!c || reduce || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   const hero = c.parentElement, ctx = c.getContext('2d');
-  let W = 0, H = 0, rings = [], raf = 0, lx = -999, ly = -999;
+  const LIFE = 420, R = 70, A = .008;                // тривалість сліду, радіус плями, сила
+  let W = 0, H = 0, pts = [], raf = 0, lx = null, ly = null;
   const size = () => { W = c.width = hero.clientWidth; H = c.height = hero.clientHeight; };
   const draw = t => {
     ctx.clearRect(0, 0, W, H);
-    rings = rings.filter(r => t - r.t < 1800);
-    for (const r of rings) {
-      const k = (t - r.t) / 1800, e = 1 - Math.pow(1 - k, 3);
-      const rad = 30 + e * 260, a = .055 * (1 - k);
-      for (let i = 0; i < 2; i++) {                    // дві концентричні хвилі
-        const rr = rad - i * 34; if (rr <= 0) continue;
-        const g = ctx.createRadialGradient(r.x, r.y, rr * .82, r.x, r.y, rr);
-        g.addColorStop(0, 'rgba(237,234,227,0)');
-        g.addColorStop(.7, `rgba(237,234,227,${(a / (i + 1)).toFixed(3)})`);
-        g.addColorStop(1, 'rgba(237,234,227,0)');
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(r.x, r.y, rr, 0, 6.2832); ctx.fill();
-      }
+    pts = pts.filter(p => t - p.t < LIFE);
+    for (const p of pts) {
+      const a = A * (1 - (t - p.t) / LIFE);
+      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, R);
+      g.addColorStop(0, `rgba(237,234,227,${a.toFixed(4)})`);
+      g.addColorStop(1, 'rgba(237,234,227,0)');
+      ctx.fillStyle = g; ctx.fillRect(p.x - R, p.y - R, R * 2, R * 2);
     }
-    raf = rings.length ? requestAnimationFrame(draw) : 0;
+    raf = pts.length ? requestAnimationFrame(draw) : 0;
   };
   hero.addEventListener('pointermove', e => {
-    const b = hero.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top;
-    if (Math.hypot(x - lx, y - ly) < 90) return;       // нова хвиля лише після помітного руху
-    lx = x; ly = y;
-    if (rings.length > 14) rings.shift();
-    rings.push({ x, y, t: performance.now() });
+    const b = hero.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top, t = performance.now();
+    if (lx !== null) {                               // заповнюємо проміжок, щоб слід був суцільним
+      const d = Math.hypot(x - lx, y - ly), n = Math.min(12, Math.floor(d / 18));
+      for (let i = 1; i <= n; i++) pts.push({ x: lx + (x - lx) * i / (n + 1), y: ly + (y - ly) * i / (n + 1), t });
+    }
+    pts.push({ x, y, t }); lx = x; ly = y;
+    if (pts.length > 160) pts.splice(0, pts.length - 160);
     if (!raf) raf = requestAnimationFrame(draw);
   });
+  hero.addEventListener('pointerleave', () => { lx = ly = null; });
   addEventListener('resize', size); size();
 })();
 
