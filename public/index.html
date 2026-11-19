@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;600;800&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=frame1">
+<link rel="stylesheet" href="css/style.css?v=calc1">
 </head>
 <body>
 <div class="preloader" aria-hidden="true">
@@ -158,7 +158,7 @@
       <div class="cost__text">
         <p class="label">// вартість</p>
         <h2 class="h2" id="cost-title">Скільки коштує відкрити заклад</h2>
-        <p class="cost__lead">Ціна фіксована й&nbsp;залежить від&nbsp;площі. Оберіть свою&nbsp;— ваги покажуть цифри.</p>
+        <p class="cost__lead">Ціна фіксована й&nbsp;залежить від&nbsp;площі. Оберіть свою&nbsp;— і&nbsp;побачите цифри.</p>
         <div class="chips" role="radiogroup" aria-label="Площа закладу">
           <button class="chip" role="radio" aria-checked="false" data-area="до 20 м²" data-s="2800" data-i="10000-18000">до&nbsp;20&nbsp;м²</button>
           <button class="chip" role="radio" aria-checked="true" data-area="20–40 м²" data-s="3300" data-i="15000-25000">20–40&nbsp;м²</button>
@@ -167,15 +167,16 @@
         </div>
 
       </div>
-      <div class="scale" aria-live="polite">
-        <div class="scale__plate" aria-hidden="true"></div>
-        <div class="scale__body">
-          <div class="scale__screen">
-            <div class="scale__line"><span class="scale__label">Послуга шефа</span><output class="scale__num" id="sv" data-ghost="$8 888">$3&nbsp;300</output></div>
-            <div class="scale__line"><span class="scale__label">Інвестиції в&nbsp;запуск</span><output class="scale__num scale__num--sm" id="iv" data-ghost="$88 888–88 888">$15&nbsp;000–25 000</output></div>
-            <div class="scale__line scale__line--total"><span class="scale__label">Разом орієнтовно</span><output class="scale__num scale__num--sm" id="tv" data-ghost="$88 888–88 888">$18&nbsp;300–28 300</output></div>
-          </div>
-          <div class="scale__foot" aria-hidden="true"><span>техкарта · ваги закладу</span><span class="scale__keys"><i></i><i></i></span></div>
+      <div class="calc" aria-live="polite">
+        <div class="calc__top">
+          <span class="calc__label">Послуга шефа <i class="calc__area" id="av">20–40&nbsp;м²</i></span>
+          <output class="calc__big" id="sv"><small>$</small>3&nbsp;300</output>
+        </div>
+        <div class="calc__row"><span class="calc__label">Інвестиції в&nbsp;запуск</span><i class="calc__dots" aria-hidden="true"></i><output class="calc__val" id="iv">$15&nbsp;000–25&nbsp;000</output></div>
+        <div class="calc__row calc__row--total"><span class="calc__label">Разом орієнтовно</span><i class="calc__dots" aria-hidden="true"></i><output class="calc__val" id="tv">$18&nbsp;300–28&nbsp;300</output></div>
+        <div class="calc__share">
+          <div class="calc__bar" aria-hidden="true"><i id="bv"></i></div>
+          <p>Послуга шефа&nbsp;— лише <b id="pv">12–18%</b> бюджету запуску</p>
         </div>
       </div>
       <div class="cost__after">
@@ -304,6 +305,6 @@
   </a>
 </div>
 
-<script src="js/main.js?v=frame1" defer></script>
+<script src="js/main.js?v=calc1" defer></script>
 </body>
 </html>

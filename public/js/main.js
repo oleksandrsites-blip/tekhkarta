@@ -257,18 +257,30 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   addEventListener('scroll', f, { passive: true }); f();
 })();
 
-// ===== Вартість: кухонні ваги =====
+// ===== Вартість: калькулятор за площею =====
 (() => {
   const chips = document.querySelectorAll('.cost .chip');
   if (!chips.length) return;
-  const scale = document.querySelector('.scale');
+  const scale = document.querySelector('.calc');
+  const group = chips[0].parentElement;
+  const pill = document.createElement('span'); pill.className = 'chips__pill'; pill.setAttribute('aria-hidden', 'true'); group.prepend(pill);
   const sv = document.getElementById('sv'), iv = document.getElementById('iv'), tv = document.getElementById('tv');
-  const fmt = n => n.toLocaleString('uk-UA').replace(/\s/g, ' ');
+  const av = document.getElementById('av'), bv = document.getElementById('bv'), pv = document.getElementById('pv');
+  const fmt = n => n.toLocaleString('uk-UA').replace(/\s/g, '\u00a0');
+  const r100 = n => fmt(Math.round(n / 100) * 100);
   let cur = { s: 3300, a: 15000, b: 25000 };
+  const movePill = () => {
+    const c = group.querySelector('[aria-checked="true"]'); if (!c) return;
+    pill.style.width = c.offsetWidth + 'px'; pill.style.height = c.offsetHeight + 'px';
+    pill.style.transform = `translate(${c.offsetLeft}px,${c.offsetTop}px)`;
+  };
   const render = v => {
-    sv.textContent = '$' + fmt(Math.round(v.s));
-    iv.textContent = '$' + fmt(Math.round(v.a / 100) * 100) + '–' + fmt(Math.round(v.b / 100) * 100);
-    tv.textContent = '$' + fmt(Math.round((v.s + v.a) / 100) * 100) + '–' + fmt(Math.round((v.s + v.b) / 100) * 100);
+    sv.innerHTML = '<small>$</small>' + fmt(Math.round(v.s));
+    iv.textContent = '$' + r100(v.a) + '–' + r100(v.b);
+    tv.textContent = '$' + r100(v.s + v.a) + '–' + r100(v.s + v.b);
+    const lo = v.s / (v.s + v.b) * 100, hi = v.s / (v.s + v.a) * 100;
+    pv.textContent = Math.round(lo) + '–' + Math.round(hi) + '%';
+    bv.style.width = ((lo + hi) / 2).toFixed(1) + '%';
   };
   const go = to => {
     if (reduce) { cur = to; render(cur); return; }
@@ -286,6 +298,7 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
     chips.forEach(c => { c.setAttribute('aria-checked', c === btn); c.tabIndex = c === btn ? 0 : -1; });
     const [a, b] = btn.dataset.i.split('-').map(Number);
     go({ s: +btn.dataset.s, a, b });
+    av.textContent = btn.dataset.area; movePill();
     try { sessionStorage.setItem('area', btn.dataset.area); } catch (e) {}
   };
   chips.forEach((c, i) => {
@@ -298,7 +311,10 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
       const n = chips[(i + d + chips.length) % chips.length]; n.focus(); pick(n);
     });
   });
-  render(cur);
+  pill.style.transition = 'none'; render(cur); movePill();
+  setTimeout(() => { pill.style.transition = ''; }, 60);
+  addEventListener('resize', movePill);
+  document.fonts && document.fonts.ready.then(movePill);
 })();
 
 // ===== Заклади: горизонтальна стрічка на скролі (десктоп), свайп (мобілка) =====
