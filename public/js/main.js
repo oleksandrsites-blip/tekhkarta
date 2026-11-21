@@ -193,7 +193,18 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
   const bt = sec0.querySelector('.bt');
   const C = layers.map(l => parseFloat(l.style.getPropertyValue('--c')));
   const ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  // етапи: на десктопі переїжджають під заголовок у закріплений екран
+  const list = sec0.querySelector('.burger-tk__list'), head = sec0.querySelector('.burger-tk__head');
+  const items = list ? [...list.children] : [];
+  const mqL = matchMedia('(min-width: 1024px)');
+  const place = () => {
+    if (!list) return;
+    if (mqL.matches) head.appendChild(list); else sec0.appendChild(list);
+    if (!mqL.matches || reduce) items.forEach(li => li.classList.add('is-on'));
+  };
+  place(); mqL.addEventListener('change', place);
   const draw = p => {
+    if (mqL.matches && !reduce) items.forEach((li, i) => li.classList.toggle('is-on', p > .06 + i * .14));
     const H = bt.offsetHeight;
     const e = ease(p);
     const k = -.34 + e * .42;              // від зібраного (-0.34) до розлетілого (+0.08)

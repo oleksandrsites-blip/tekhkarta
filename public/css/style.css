@@ -200,6 +200,12 @@ h1,h2,h3,.intro__text,.frame__text{text-wrap:balance}
 @media (min-width:1024px){
   .burger-tk__list{grid-template-columns:repeat(3,1fr);column-gap:48px}
   .burger-tk__list li{grid-template-columns:1fr;gap:6px}
+  /* етапи в закріпленому екрані, під заголовком, проявляються разом із шарами */
+  .burger-tk__head .burger-tk__list{counter-reset:st;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:40px;max-width:min(780px,50vw);margin-top:clamp(28px,5vh,56px);padding:0;background:none}
+  .burger-tk__head .burger-tk__list li{counter-increment:st;align-content:start;grid-template-columns:34px 1fr;column-gap:10px;row-gap:4px;padding:16px 0;opacity:.22;transform:translateY(8px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+  .burger-tk__head .burger-tk__list li::before{content:counter(st,decimal-leading-zero);grid-row:span 2;font:600 13px/1.8 var(--font);letter-spacing:.12em;color:var(--accent)}
+  .burger-tk__head .burger-tk__list li.is-on{opacity:1;transform:none}
+  .burger-tk__head .burger-tk__list b{line-height:1.6}
 }
 
 /* ===== Як працюємо ===== */
